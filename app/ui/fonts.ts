@@ -4,15 +4,15 @@
 
   export const lusitana = Lusitana({
     subsets: ["latin"],
-    weight: ["400", "700"], // Menggunakan array untuk konsistensi
+    weight: ["400", "700"], 
   });
 
   export const stalinistOne = Stalinist_One({
     subsets: ["latin"],
-    weight: ["400"], // Konsisten dengan array meskipun satu nilai
+    weight: ["400"], 
   });
   
   export const rubikLines = Rubik_Lines({
     subsets: ["latin"],
-    weight: ["400"], // Konsisten dengan array meskipun satu nilai
+    weight: ["400"], 
   });
