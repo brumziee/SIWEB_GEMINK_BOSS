@@ -1,52 +1,55 @@
-import AcmeLogo from '@/app/ui/acme-logo';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import Link from 'next/link';
-import styles from '@/app/ui/home.module.css'
-import { lusitana } from '@/app/ui/fonts'
-import Image from 'next/image'
+"use client";
 
-export default function Page() {
+import React, { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { stalinistOne } from "@/app//ui/fonts";
+
+const HomePage = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
+
+  const checkLoginStatus = () => {
+    return isLoggedIn;
+  };
+
+  const handleExploreClick = (e: React.MouseEvent) => {
+    if (!checkLoginStatus()) {
+      e.preventDefault();
+      router.push("/login"); // Langsung redirect ke login tanpa alert
+    }
+  };
+
   return (
-    <main className="flex min-h-screen flex-col p-6">
-      <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
-        <AcmeLogo />
-        {/* <AcmeLogo /> */}
+    <div
+      className="relative flex flex-col gap-5 justify-center items-center w-full h-[calc(100vh-80px)] bg-cover bg-center bg-no-repeat"
+      style={{
+        backgroundImage:
+          "url('https://a57.foxnews.com/static.foxnews.com/foxnews.com/content/uploads/2024/11/1200/675/istock-1560833158.jpg?ve=1&tl=1')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+
+      <div className="z-10 flex flex-col gap-5 justify-center items-center">
+      <h1 className={`${stalinistOne.className} text-6xl text-center text-orange-100 max-md:text-7xl max-sm:text-6xl`}>
+GEMINK BOSS
+</h1>
+        <div className="h-0.5 bg-white w-[274px]" />
+        <p className="text-2xl italic font-semibold text-white max-sm:text-xl">
+          Gear Up, Level Up
+        </p>
+        <Link
+          href="/katalog"
+          onClick={handleExploreClick}
+          className="px-10 py-4 text-2xl text-black bg-white rounded-xl cursor-pointer hover:bg-opacity-90 transition max-sm:px-8 max-sm:py-3 max-sm:text-xl"
+        >
+          Explore
+        </Link>
       </div>
-      <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
-        <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
-        <div className={styles.shape}/>
-          <p className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}>
-            <strong>Welcome to Acme.</strong> This is the example for the{' '}
-            <a href="https://nextjs.org/learn/" className="text-blue-500">
-              Next.js Learn Course
-            </a>
-            , brought to you by Vercel.
-          </p>
-          <Link
-            href="/login"
-            className="flex items-center gap-5 self-start rounded-lg bg-blue-500 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-400 md:text-base"
-          >
-            <span>Log in</span> <ArrowRightIcon className="w-5 md:w-6" />
-          </Link>
-        </div>
-        <div className="flex items-center justify-center p-6 md:w-3/5 md:px-28 md:py-12">
-          {/* Add Hero Images Here */}
-          <Image
-            src="/hero-desktop.png"
-            width={1000}
-            height={760}
-            className='hidden md:hidden'
-            alt="Screenshots of the deashboard project showing desktop version"
-          />
-          <Image
-            src="/hero-mobile.png"
-            width={1000}
-            height={760}
-            className='hidden md:block'
-            alt="Screenshots of the deashboard project showing desktop version"
-          />
-        </div>
-      </div>
-    </main>
+    </div>
   );
-}
+};
+
+export default HomePage;
