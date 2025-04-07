@@ -18,7 +18,9 @@ export default function ProductCatalog() {
             </h1>
             <SearchBar />
           </div>
-          <ProductTable />
+          <div className="text-black ">
+            <ProductTable />
+          </div>
         </main>
       </div>
     </>
