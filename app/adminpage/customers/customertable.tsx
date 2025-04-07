@@ -27,7 +27,7 @@ export function CustomerTable() {
       {customers.map((customer) => (
         <div
           key={customer.id}
-          className="flex p-5 border-b border-solid border-b-black border-b-opacity-10 max-sm:p-2.5 max-sm:text-xs"
+          className="flex p-5 border-b border-solid border-b-black border-b-opacity-10 max-sm:p-2.5 text-black  max-sm:text-xs"
         >
           <div className="flex-1 text-base">{customer.id}</div>
           <div className="flex-1 text-base">{customer.name}</div>
