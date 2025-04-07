@@ -1,35 +1,70 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
 
 export default function RegisterPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleRegister = () => {
+    alert("Registrasi berhasil! Silakan login.");
+  };
+
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-900 text-white">
-      <div className="w-full max-w-md bg-gray-800 p-6 rounded-lg shadow-lg">
-        <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
-        
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm">Nama Lengkap</label>
-            <input type="text" className="w-full px-4 py-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+    <div className="h-screen flex justify-center items-center bg-[#F5E1C9] text-gray-900">
+      <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg text-center">
+        <h2 className="text-3xl font-bold mb-6">REGISTER BOSS</h2>
+
+        <div className="space-y-4">
+          <div className="flex items-center bg-gray-200 px-4 py-3 rounded-lg">
+            <input
+              type="text"
+              placeholder="Nama Lengkap"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="bg-transparent outline-none w-full text-gray-900 placeholder-gray-500"
+              required
+            />
           </div>
 
-          <div>
-            <label className="block text-sm">Email</label>
-            <input type="email" className="w-full px-4 py-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" required />
-          </div>
-          
-          <div>
-            <label className="block text-sm">Password</label>
-            <input type="password" className="w-full px-4 py-2 rounded bg-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-blue-500" required />
+          <div className="flex items-center bg-gray-200 px-4 py-3 rounded-lg">
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="bg-transparent outline-none w-full text-gray-900 placeholder-gray-500"
+              required
+            />
           </div>
 
-          <button className="w-full bg-green-600 hover:bg-green-700 py-2 rounded-lg font-semibold">Register</button>
-        </form>
+          <div className="flex items-center bg-gray-200 px-4 py-3 rounded-lg">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="bg-transparent outline-none w-full text-gray-900 placeholder-gray-500"
+              required
+            />
+          </div>
 
-        <p className="mt-4 text-center text-sm">
-          Sudah punya akun? <Link href="/login" className="text-blue-400 hover:underline">Login di sini</Link>
-        </p>
+          <button
+            onClick={handleRegister}
+            className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-full font-semibold text-white text-lg shadow-md transition-all"
+          >
+            Register
+          </button>
+
+          <p className="mt-4 text-sm text-gray-600">
+            Sudah punya akun?{" "}
+            <Link href="/login" className="text-blue-600 hover:underline">
+              Login di sini
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
