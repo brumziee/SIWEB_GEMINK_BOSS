@@ -1,4 +1,7 @@
+"use client";
+
 import React from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import "@/app/ui/global.css";
 import { Poppins, Stalinist_One } from "next/font/google";
@@ -15,7 +18,7 @@ const NavItem: React.FC<{ text: string; href: string }> = ({ text, href }) => (
 const Header: React.FC = () => {
   const navItems = [
     { text: "Home", href: "/" },
-    { text: "Our Team", href: "/ourteam" },
+    { text: "Our Team", href: "/our-team" },
     { text: "About Us", href: "/aboutus" },
     { text: "Testimoni", href: "/testimoni" },
     { text: "Katalog", href: "/katalog" },
@@ -23,19 +26,16 @@ const Header: React.FC = () => {
 
   return (
     <header className="bg-[#261FB3] text-white py-4 px-8 flex items-center justify-between shadow-md">
-      {/* Logo */}
       <Link href="/" className={`text-2xl font-bold ${stalinistOne.className}`}>
         GEMINK BOSS
       </Link>
 
-      {/* Navigasi */}
       <nav className="flex gap-7 max-md:hidden">
         {navItems.map((item, index) => (
           <NavItem key={index} text={item.text} href={item.href} />
         ))}
       </nav>
 
-      {/* Tombol Login */}
       <Link href="/login">
         <button className="px-6 py-2 text-lg text-blue-600 bg-white rounded-full font-semibold shadow-md hover:bg-gray-200 transition-all">
           Login
@@ -46,10 +46,13 @@ const Header: React.FC = () => {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const isAdminPage = pathname.startsWith("/admin");
+
   return (
     <html lang="en">
       <body className={`${poppins.className} bg-black text-white`}>
-        <Header />
+        {!isAdminPage && <Header />}
         {children}
       </body>
     </html>
