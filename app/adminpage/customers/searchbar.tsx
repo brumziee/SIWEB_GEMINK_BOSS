@@ -7,7 +7,7 @@ export function SearchBar() {
       <input
         type="text"
         placeholder="Cari"
-        className="w-full text-base border-[none] bg-transparent focus:outline-none"
+        className="w-full text-base border-[none] bg-transparent focus:outline-none text-black "
       />
     </div>
   );
