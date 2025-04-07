@@ -11,7 +11,7 @@ export const SearchBar: React.FC = () => {
         <input
           type="text"
           placeholder="Cari"
-          className="w-full text-base border-[none] bg-transparent outline-none"
+          className="w-full text-base border-[none] bg-transparent outline-none text-black "
         />
       </div>
     </div>
