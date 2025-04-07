@@ -64,36 +64,6 @@ export default function AboutUsPage() {
         />
       </article>
 
-      <section className="w-full px-8 pt-16 mx-auto max-w-[1440px]">
-        <h1 className="mb-10 text-6xl text-black tracking-[3px] max-sm:text-4xl text-center">
-          OUR TEAM
-        </h1>
-        <div className="p-8 border-black shadow-sm bg-white bg-opacity-90 rounded-xl max-sm:p-4">
-          <div className="grid grid-cols-2 gap-8 max-md:grid-cols-1">
-            <TeamMemberCard
-              title="BADUT ATMA"
-              name="MIKAEL BRAMANTYO F.W"
-              imageUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/d0c3dc6b9a2c5d2b1e65aec72aad25e519add754"
-            />
-            <TeamMemberCard
-              title="MAS MAS PENYANYI"
-              name="DIONISIUS DEVONAPTA H"
-              imageUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/3dd20539ba602948e4b87c073b2ff98e27ed2a6e"
-            />
-            <TeamMemberCard
-              title="CAPTAIN TIMNAS"
-              name="JONATHAN DAMAR S"
-              imageUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/68fa5bef2ba3c3aaebd035189de0a711ddc85bf8"
-            />
-            <TeamMemberCard
-              title="CINA BAIK HATI"
-              name="FELIX CHRISTIAN"
-              imageUrl="https://cdn.builder.io/api/v1/image/assets/TEMP/423413232b7b1f9b33ede663873db681ba29cb7b"
-            />
-          </div>
-        </div>
-      </section>
-
       <aside className="flex flex-col flex-1 gap-5 w-full max-w-5xl">
         <section className="p-10 text-center rounded-xl bg-white bg-opacity-90">
           <h3 className="mb-5 text-4xl italic font-semibold text-black max-sm:text-3xl">
