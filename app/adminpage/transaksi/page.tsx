@@ -13,7 +13,7 @@ export default function TransactionsPage() {
       <div className="flex min-h-screen bg-orange-50 max-md:flex-col">
         <main className="flex-1 px-10 py-5 max-md:p-2.5">
           <header className="flex justify-between items-center mb-10 max-md:flex-col max-md:gap-5">
-            <h1 className="text-4xl font-bold max-sm:text-2xl">
+            <h1 className="text-4xl font-bold max-sm:text-2xl text-black">
               Transaksi
             </h1>
             <div className="flex gap-5 max-md:flex-col max-md:w-full">
