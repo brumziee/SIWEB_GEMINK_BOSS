@@ -27,7 +27,7 @@ export const ReviewSection = () => {
 
   return (
     <section className="box-border flex flex-col items-center px-0 py-10 m-0">
-      <h2 className="box-border p-0 m-0 mb-5 text-5xl text-black max-sm:text-4xl">
+      <h2 className="text-3xl font-excelate font-bold text-black mb-6">
         GEMINK BOSS
       </h2>
       <div className="box-border flex flex-col items-center p-0 m-0">

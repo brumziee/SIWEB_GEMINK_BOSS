@@ -18,7 +18,7 @@ export default function RegisterPage() {
   return (
     <div className="h-screen flex justify-center items-center bg-gradient-to-b from-[#fdf5e6] to-[#1e1eff] text-gray-900">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg text-center">
-        <h2 className="text-3xl font-bold mb-6">REGISTER BOSS</h2>
+        <h2 className="text-3xl font-excelate font-bold mb-6">SIGN UP</h2>
 
         <div className="space-y-4">
           <div className="flex items-center bg-gray-200 px-4 py-3 rounded-lg">

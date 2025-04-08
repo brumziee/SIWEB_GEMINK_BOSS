@@ -36,7 +36,7 @@ export default function AboutUsPage() {
   return (
     <main className="flex flex-col items-center gap-10 p-10 min-h-screen w-full bg-gradient-to-b from-[#fdf5e6] to-[#1e1eff]">
       <article className="flex flex-col flex-1 items-center p-10 rounded-xl bg-white bg-opacity-90 w-full max-w-5xl">
-        <h2 className="mb-10 text-5xl text-black max-sm:text-4xl">GEMINK BOSS</h2>
+        <h2 className="text-3xl font-excelate font-bold text-black mb-6">GEMINK BOSS</h2>
         <p className="text-xl leading-normal text-center text-black max-sm:text-base">
           GeminkBoss adalah toko terbaik untuk para gamer dan pecinta teknologi yang mencari
           peralatan gaming berkualitas tinggi! Kami menyediakan berbagai mouse gaming, keyboard

@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { stalinistOne } from "@/app//ui/fonts";
 
 const HomePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,7 +15,7 @@ const HomePage = () => {
   const handleExploreClick = (e: React.MouseEvent) => {
     if (!checkLoginStatus()) {
       e.preventDefault();
-      router.push("/login"); // Langsung redirect ke login tanpa alert
+      router.push("/login"); // Redirect ke login jika belum login
     }
   };
 
@@ -32,14 +31,21 @@ const HomePage = () => {
     >
       <div className="absolute inset-0 bg-black bg-opacity-40"></div>
 
-      <div className="z-10 flex flex-col gap-5 justify-center items-center">
-      <h1 className={`${stalinistOne.className} text-6xl text-center text-orange-100 max-md:text-7xl max-sm:text-6xl`}>
-GEMINK BOSS
-</h1>
+      <div className="z-10 flex flex-col gap-2 justify-center items-center">
+        {/* GEMINK di atas, BOSS di bawah */}
+        <h1 className="font-excelate text-6xl text-center text-orange-100 leading-none max-md:text-7xl max-sm:text-6xl">
+          GEMINK
+        </h1>
+        <h1 className="font-excelate text-6xl text-center text-orange-100 leading-none max-md:text-7xl max-sm:text-6xl">
+          BOSS
+        </h1>
+        
         <div className="h-0.5 bg-white w-[274px]" />
+
         <p className="text-2xl italic font-semibold text-white max-sm:text-xl">
           Gear Up, Level Up
         </p>
+
         <Link
           href="/katalog"
           onClick={handleExploreClick}
