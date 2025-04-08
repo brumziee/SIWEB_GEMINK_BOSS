@@ -2,23 +2,27 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
 
   const handleRegister = () => {
     alert("Registrasi berhasil! Silakan login.");
   };
 
   return (
-    <div className="h-screen flex justify-center items-center bg-[#F5E1C9] text-gray-900">
+    <div className="h-screen flex justify-center items-center bg-gradient-to-b from-[#fdf5e6] to-[#1e1eff] text-gray-900">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg text-center">
         <h2 className="text-3xl font-bold mb-6">REGISTER BOSS</h2>
 
         <div className="space-y-4">
           <div className="flex items-center bg-gray-200 px-4 py-3 rounded-lg">
+            <FaUser className="mr-3 text-gray-600" />
             <input
               type="text"
               placeholder="Nama Lengkap"
@@ -30,6 +34,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="flex items-center bg-gray-200 px-4 py-3 rounded-lg">
+            <FaEnvelope className="mr-3 text-gray-600" />
             <input
               type="email"
               placeholder="Email"
@@ -41,6 +46,7 @@ export default function RegisterPage() {
           </div>
 
           <div className="flex items-center bg-gray-200 px-4 py-3 rounded-lg">
+            <FaLock className="mr-3 text-gray-600" />
             <input
               type="password"
               placeholder="Password"
@@ -53,7 +59,7 @@ export default function RegisterPage() {
 
           <button
             onClick={handleRegister}
-            className="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-full font-semibold text-white text-lg shadow-md transition-all"
+            className="w-full bg-[#1e1e99] hover:bg-[#161676] py-3 rounded-full font-semibold text-white text-lg shadow-md transition-all"
           >
             Register
           </button>

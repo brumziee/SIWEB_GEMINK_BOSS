@@ -1,5 +1,5 @@
 import React from 'react';
-import ProductShowcase from './ProductShowcase';
+import ProductShowcase from './productshow';
 
 const KatalogPage = () => {
   return <ProductShowcase />;

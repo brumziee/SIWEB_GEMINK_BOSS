@@ -1,4 +1,5 @@
 "use client";
+
 import * as React from "react";
 import TeamMember from "./teamcard";
 import HomeIcon from "./home";
@@ -11,13 +12,12 @@ const TeamPage: React.FC = () => {
         rel="stylesheet"
       />
 
-
-      <main className="relative px-10 py-16">
-        <h1 className="mb-12 text-6xl text-black tracking-[3px] max-md:text-5xl max-md:text-center max-sm:text-4xl">
+      <main className="relative px-10 py-16 flex flex-col items-center">
+        <h1 className="mb-12 text-6xl font-bold text-black tracking-wide text-center max-md:text-5xl max-sm:text-4xl">
           OUR TEAM
         </h1>
 
-        <section className="grid gap-8 px-24 py-8 mx-auto my-0 border-2 border-solid bg-zinc-300 bg-opacity-10 border-black border-opacity-10 grid-cols-[repeat(2,1fr)] max-w-[1372px] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] max-md:px-10 max-md:py-8 max-md:grid-cols-[1fr]">
+        <section className="grid gap-8 px-16 py-10 border-2 border-solid bg-white bg-opacity-90 border-black border-opacity-10 grid-cols-1 md:grid-cols-2 max-w-6xl shadow-md rounded-xl">
           <TeamMember
             nickname="BADUT ATMA"
             name="MIKAEL BRAMANTYO F.W"
@@ -49,7 +49,7 @@ const TeamPage: React.FC = () => {
       </main>
 
       <button
-        className="flex fixed right-10 bottom-10 justify-center items-center px-8 py-5 bg-white rounded-[50px]"
+        className="fixed right-10 bottom-10 flex items-center justify-center px-6 py-4 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-all"
         aria-label="Go to home"
       >
         <HomeIcon />

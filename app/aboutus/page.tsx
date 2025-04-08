@@ -1,5 +1,9 @@
 "use client";
-import React from "react";
+
+import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
 
 const ArrowIcon = () => {
   return (
@@ -20,24 +24,9 @@ const ArrowIcon = () => {
   );
 };
 
-const TeamMemberCard = ({ title, name, imageUrl }) => {
-  return (
-    <article className="flex gap-8 items-start max-sm:flex-col">
-      <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-4">
-          <h3 className="text-lg font-semibold text-neutral-900">{title}</h3>
-          <h2 className="text-3xl text-neutral-900">{name}</h2>
-        </div>
-        <ArrowIcon />
-      </div>
-      <img src={imageUrl} alt={`${name} - ${title}`} className="w-[315px] h-[248px] object-cover" />
-    </article>
-  );
-};
-
 const HomeButton = () => {
   return (
-    <button className="px-6 py-3 mt-10 text-xl font-semibold text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+    <button className="px-6 py-3 mt-10 text-xl font-semibold text-white bg-[#1e1e99] rounded-lg hover:bg-[#161676]">
       Home
     </button>
   );
@@ -45,7 +34,7 @@ const HomeButton = () => {
 
 export default function AboutUsPage() {
   return (
-    <main className="flex flex-col items-center gap-10 p-10 min-h-screen w-full bg-zinc-300">
+    <main className="flex flex-col items-center gap-10 p-10 min-h-screen w-full bg-gradient-to-b from-[#fdf5e6] to-[#1e1eff]">
       <article className="flex flex-col flex-1 items-center p-10 rounded-xl bg-white bg-opacity-90 w-full max-w-5xl">
         <h2 className="mb-10 text-5xl text-black max-sm:text-4xl">GEMINK BOSS</h2>
         <p className="text-xl leading-normal text-center text-black max-sm:text-base">

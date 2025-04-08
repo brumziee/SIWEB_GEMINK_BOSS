@@ -19,7 +19,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="h-screen flex justify-center items-center bg-[#F5E1C9] text-gray-900">
+    <div className="h-screen flex justify-center items-center bg-gradient-to-b from-[#fdf5e6] to-[#1e1eff] text-gray-900">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg text-center">
         <h1 className="text-3xl font-bold mb-6">LOGIN BOSS</h1>
 
@@ -46,8 +46,9 @@ export default function LoginPage() {
             />
           </div>
 
+          {/* Link ke halaman Forgot Password */}
           <p className="text-sm text-gray-500 mt-2 cursor-pointer hover:underline">
-            Forgot Password?
+            <Link href="/forgot">Forgot Password?</Link>
           </p>
 
           <button
