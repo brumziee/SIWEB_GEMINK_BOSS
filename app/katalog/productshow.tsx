@@ -9,9 +9,9 @@ type ProductCategory = {
 };
 
 const categories: ProductCategory[] = [
-  { name: 'Letop', count: 2, imageUrl: '/letop.png' },
-  { name: 'Kebrot', count: 1, imageUrl: '/kebrot.png' },
-  { name: 'Maus', count: 3, imageUrl: '/maus.png' },
+  { name: 'Letop', count: 2, imageUrl: '/public/letop.png' },
+  { name: 'Kebrot', count: 1, imageUrl: 'public//kebrot.png' },
+  { name: 'Maus', count: 3, imageUrl: 'public/maus.png' },
 ];
 
 const ProductShowcase: React.FC = () => {
