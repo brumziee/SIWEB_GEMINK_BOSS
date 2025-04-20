@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Suspense } from "react";
 
-export default function ResetPasswordPage() {
+function ResetPasswordContent() {
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") || ""; // Ambil email dari URL
+  const email = searchParams.get("email") || "";
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
@@ -16,7 +17,7 @@ export default function ResetPasswordPage() {
       return;
     }
     alert(`Password for ${email} has been reset successfully!`);
-    router.push("/login"); // Redirect kembali ke login
+    router.push("/login");
   };
 
   return (
@@ -49,5 +50,13 @@ export default function ResetPasswordPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }
