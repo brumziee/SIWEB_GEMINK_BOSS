@@ -1,19 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react"; // Menggunakan useEffect
+import { useState, Suspense } from "react"; // Mengimpor Suspense
 import { useSearchParams, useRouter } from "next/navigation";
 
-export default function ResetPasswordPage() {
+// Komponen ResetPasswordForm yang akan dibungkus dengan Suspense
+function ResetPasswordForm() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email") || ""; // Ambil email dari URL
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [isClient, setIsClient] = useState(false); // Track apakah berada di client side
   const router = useRouter();
-
-  useEffect(() => {
-    setIsClient(true); // Menandakan sudah berada di client-side
-  }, []);
 
   const handleResetPassword = () => {
     if (newPassword !== confirmPassword) {
@@ -23,10 +19,6 @@ export default function ResetPasswordPage() {
     alert(`Password for ${email} has been reset successfully!`);
     router.push("/login"); // Redirect kembali ke login
   };
-
-  if (!isClient) {
-    return <div>Loading...</div>; // Menunggu agar komponen hanya dirender di client-side
-  }
 
   return (
     <div className="h-screen flex justify-center items-center bg-gradient-to-b from-[#fdf5e6] to-[#1e1eff] text-gray-900">
@@ -58,5 +50,14 @@ export default function ResetPasswordPage() {
         </button>
       </div>
     </div>
+  );
+}
+
+// Halaman Reset Password dengan Suspense
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}> {/* Menambahkan Suspense untuk pembungkus */}
+      <ResetPasswordForm />
+    </Suspense>
   );
 }
