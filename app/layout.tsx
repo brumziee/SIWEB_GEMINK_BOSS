@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import "@/app/ui/global.css";
 import { Poppins } from "next/font/google";
-import Footer from "@/app/footer"; // tambahkan import Footer di atas  
+import Footer from "@/app/footer"; // Footer tetap diimpor
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -18,10 +18,9 @@ const NavItem: React.FC<{ text: string; href: string }> = ({ text, href }) => (
 const Header: React.FC = () => {
   const navItems = [
     { text: "Home", href: "/" },
-    { text: "Our Team", href: "/ourteam" },
-    { text: "About Us", href: "/aboutus" },
-    { text: "Testimoni", href: "/testimoni" },
-    { text: "Katalog", href: "/katalog" },
+    { text: "Shop", href: "/shop" },
+    { text: "About", href: "/about" },
+    { text: "Contact", href: "/contact" },
   ];
 
   return (
