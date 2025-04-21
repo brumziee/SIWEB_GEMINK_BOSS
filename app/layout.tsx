@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import "@/app/ui/global.css";
 import { Poppins } from "next/font/google";
+import Footer from "@/app/footer"; // tambahkan import Footer di atas  
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
@@ -45,15 +46,26 @@ const Header: React.FC = () => {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body className={`${poppins.className} bg-black text-white flex flex-col min-h-screen`}>
+        <LayoutWithHeaderFooter>{children}</LayoutWithHeaderFooter>
+      </body>
+    </html>
+  );
+}
+
+// 👇 Komponen klien terpisah untuk akses usePathname
+function LayoutWithHeaderFooter({ children }: { children: React.ReactNode }) {
+  "use client";
   const pathname = usePathname();
   const isAdminPage = pathname.startsWith("/admin");
 
   return (
-    <html lang="en">
-      <body className={`${poppins.className} bg-black text-white`}>
-        {!isAdminPage && <Header />}
-        {children}
-      </body>
-    </html>
+    <>
+      {!isAdminPage && <Header />}
+      <main className="flex-grow">{children}</main>
+      {!isAdminPage && <Footer />}
+    </>
   );
 }
