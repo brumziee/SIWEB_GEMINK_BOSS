@@ -11,8 +11,10 @@ export default function LoginPage() {
   const router = useRouter();
 
   const handleLogin = () => {
-    if (username === "admin" && password === "admin") {
-      router.push("/adminpage"); // Arahkan ke halaman admin
+    if (username === "admin123" && password === "12345") {
+      router.push("/adminpage"); 
+    } else if (username === "user123" && password === "12345") {
+      router.push("/page"); 
     } else {
       alert("Invalid username or password!");
     }
