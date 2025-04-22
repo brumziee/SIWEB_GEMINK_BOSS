@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState } from 'react';
 import { Poppins } from "next/font/google";
@@ -21,7 +21,7 @@ export default function ContactUs() {
   return (
     <div className="min-h-screen bg-[#FFF5E8] flex flex-col justify-between relative">
       <div className="flex-grow flex flex-col items-center py-16">
-        <h1 className="text-3xl font-sakana italic mb-10 text-black">CONTACT US</h1>
+        <h1 className="text-6xl font-sakana italic mb-10 text-black">CONTACT US</h1> {/* Ukuran font diperbesar lebih besar */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-md p-8 rounded-xl bg-white bg-opacity-90 border-2 border-solid border-black border-opacity-10 shadow-md">
           <div>
             <label className="block text-sm mb-1 text-black">Email</label>
@@ -29,7 +29,7 @@ export default function ContactUs() {
               type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`w-full px-4 py-3 rounded-lg bg-gray-600 text-white placeholder-white focus:outline-none ${poppins.className}`}
+              className={`w-full px-4 py-3 rounded-lg bg-gray-300 text-black placeholder-gray-500 focus:outline-none ${poppins.className}`}
               placeholder="Email"
             />
           </div>
@@ -39,7 +39,7 @@ export default function ContactUs() {
               type="text"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              className={`w-full px-4 py-3 rounded-lg bg-gray-600 text-white placeholder-white focus:outline-none ${poppins.className}`}
+              className={`w-full px-4 py-3 rounded-lg bg-gray-300 text-black placeholder-gray-500 focus:outline-none ${poppins.className}`}
               placeholder="Username"
             />
           </div>
@@ -49,7 +49,7 @@ export default function ContactUs() {
               type="text"
               value={details}
               onChange={(e) => setDetails(e.target.value)}
-              className={`w-full px-4 py-3 rounded-lg bg-gray-600 text-white placeholder-white focus:outline-none ${poppins.className}`}
+              className={`w-full px-4 py-3 rounded-lg bg-gray-300 text-black placeholder-gray-500 focus:outline-none ${poppins.className}`}
               placeholder="Enter your problem details"
             />
           </div>

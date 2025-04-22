@@ -3,7 +3,6 @@
 import React from 'react';
 import Link from 'next/link';
 
-
 type ProductCategory = {
   name: string;
   count: number;
@@ -18,7 +17,7 @@ const categories: ProductCategory[] = [
 
 const ProductShowcase: React.FC = () => {
   return (
-    <section className="min-h-screen bg-gradient-to-b from-[#fdf5e6] to-[#1e1eff] flex flex-col items-center py-16">
+    <section className="min-h-screen bg-[#FFF5E8] flex flex-col items-center py-16">
       {/* Title */}
       <div className="text-center">
         <h2 className="text-5xl md:text-6xl font-black italic mb-2 tracking-wide text-black font-sakana">

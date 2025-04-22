@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { PopularProductSection } from "@/app/popular-product/popular-section";
@@ -10,6 +10,14 @@ const HomePage = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const router = useRouter();
 
+  // Cek status login saat halaman dimuat
+  useEffect(() => {
+    const role = localStorage.getItem("role"); // Ambil status login dari localStorage
+    if (role) {
+      setIsLoggedIn(true); // Set login status jika role ditemukan
+    }
+  }, []);
+
   const checkLoginStatus = () => {
     return isLoggedIn;
   };
@@ -17,7 +25,7 @@ const HomePage = () => {
   const handleExploreClick = (e: React.MouseEvent) => {
     if (!checkLoginStatus()) {
       e.preventDefault();
-      router.push("/login");
+      router.push("/login"); // Arahkan ke halaman login jika belum login
     }
   };
 
@@ -57,11 +65,9 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* POPULAR PRODUCT */}
-      <PopularProductSection />
+      {isLoggedIn && <PopularProductSection />}
 
-      {/* REVIEW SECTION */}
-      <ReviewSection />
+      {isLoggedIn && <ReviewSection />}
     </div>
   );
 };

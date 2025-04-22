@@ -17,11 +17,11 @@ function ResetPasswordForm() {
       return;
     }
     alert(`Password for ${email} has been reset successfully!`);
-    router.push("/login"); // Redirect kembali ke login
+    router.push("/login"); 
   };
 
   return (
-    <div className="h-screen flex justify-center items-center bg-gradient-to-b from-[#fdf5e6] to-[#1e1eff] text-gray-900">
+    <div className="h-screen flex justify-center items-center bg-[#FFF5E8] text-gray-900">
       <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg text-center">
         <h1 className="text-3xl font-excelate font-bold mb-6">Reset Password</h1>
         <p className="text-sm text-gray-600 mb-4">Enter your new password.</p>
@@ -44,7 +44,7 @@ function ResetPasswordForm() {
 
         <button
           onClick={handleResetPassword}
-          className="w-full bg-blue-600 hover:bg-blue-700 py-3 mt-4 rounded-full font-semibold text-white text-lg shadow-md transition-all"
+          className="w-full bg-[#1B1891] hover:bg-[#161676] py-3 mt-4 rounded-full font-semibold text-white text-lg shadow-md transition-all"
         >
           Reset Password
         </button>
