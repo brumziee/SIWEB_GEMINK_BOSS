@@ -1,4 +1,5 @@
 import * as React from "react";
+import { ActionButton } from "./actionbutton";
 
 const transactions = [
   {
@@ -40,29 +41,35 @@ const transactions = [
 
 export function TransactionsTable() {
   return (
-    <div className="overflow-auto rounded-3xl border-[3px] border-black border-opacity-20">
-      <table className="w-full border-collapse">
-        <thead className="bg-indigo-800 text-white">
-          <tr>
-            <th className="p-4 text-left text-sm font-semibold">ID</th>
-            <th className="p-4 text-left text-sm font-semibold">Tanggal</th>
-            <th className="p-4 text-left text-sm font-semibold">Total</th>
-            <th className="p-4 text-left text-sm font-semibold">Pelanggan</th>
-            <th className="p-4 text-left text-sm font-semibold">Item</th>
-          </tr>
-        </thead>
-        <tbody>
-          {transactions.map((t) => (
-            <tr key={t.id} className="text-black">
-              <td className="p-4 text-sm">{t.id}</td>
-              <td className="p-4 text-sm">{t.date}</td>
-              <td className="p-4 text-sm">{t.total}</td>
-              <td className="p-4 text-sm">{t.customer}</td>
-              <td className="p-4 text-sm">{t.items}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="overflow-hidden rounded-3xl border-[3px] border-black border-opacity-20 max-md:overflow-x-auto">
+      <div className="flex p-5 text-base font-bold bg-indigo-800 text-white max-sm:p-2.5 max-sm:text-xs">
+        <div className="flex-1">ID Transaksi</div>
+        <div className="flex-1">Tanggal Transaksi</div>
+        <div className="flex-1">Total Harga</div>
+        <div className="flex-1">Nama Pelanggan</div>
+        <div className="flex-1">Item yang Dibeli</div>
+        <div className="flex-1 text-center">Pilihan</div>
+      </div>
+      {transactions.map((t) => (
+        <div
+          key={t.id}
+          className="flex p-5 border-b border-solid border-black border-opacity-10 text-black max-sm:p-2.5 max-sm:text-xs"
+        >
+          <div className="flex-1 text-base">{t.id}</div>
+          <div className="flex-1 text-base">{t.date}</div>
+          <div className="flex-1 text-base">{t.total}</div>
+          <div className="flex-1 text-base">{t.customer}</div>
+          <div className="flex-1 text-base">{t.items}</div>
+          <div className="flex flex-1 gap-8 justify-center items-center text-base text-center max-sm:flex-col max-sm:gap-1.5">
+            <ActionButton variant="edit" size="small" onClick={() => {}}>
+              Ubah
+            </ActionButton>
+            <ActionButton variant="delete" size="small" onClick={() => {}}>
+              Hapus
+            </ActionButton>
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

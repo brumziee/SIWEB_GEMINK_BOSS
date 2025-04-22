@@ -2,6 +2,7 @@
 import * as React from "react";
 import { TransactionsTable } from "./transactionstable";
 import { SearchBar } from "./searchbar";
+import { ActionButton } from "./actionbutton";
 
 export default function TransactionsPage() {
   return (
@@ -10,22 +11,22 @@ export default function TransactionsPage() {
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
       />
-      <div className="flex min-h-screen bg-orange-50 max-md:flex-col">
-        <main className="flex-1 px-10 py-5 max-md:p-2.5">
-          <header className="flex justify-between items-center mb-10 max-md:flex-col max-md:gap-5">
-            <h1 className="text-4xl font-bold max-sm:text-2xl text-black">
-              Transaksi
+      <main className="flex min-h-screen bg-orange-50">
+        <section className="flex-1 px-12 py-10 max-md:p-5 max-sm:p-2.5">
+          <header className="flex justify-between items-center mb-10 max-md:flex-col max-md:gap-5 max-md:items-start">
+            <h1 className="text-4xl font-bold text-black max-sm:text-2xl">
+              Katalog Produk
             </h1>
             <div className="flex gap-5 max-md:flex-col max-md:w-full">
-              <button className="px-8 py-2.5 text-base bg-lime-800 rounded-md cursor-pointer border-[none] text-[white]">
+              <ActionButton variant="add" onClick={() => {}}>
                 Tambah
-              </button>
+              </ActionButton>
               <SearchBar />
             </div>
           </header>
           <TransactionsTable />
-        </main>
-      </div>
+        </section>
+      </main>
     </>
   );
 }

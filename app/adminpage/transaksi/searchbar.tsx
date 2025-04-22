@@ -1,14 +1,13 @@
-"use client";
 import * as React from "react";
 
 export function SearchBar() {
   return (
-    <div className="flex items-center px-5 py-2.5 rounded-3xl border border-solid border-[black] w-[450px] max-md:w-full">
-      <i className="ti ti-search mr-2.5" />
+    <div className="flex items-center p-4 rounded-3xl border border-black border-solid w-[489px] max-md:w-full">
+      <i className="ti ti-search mr-4 text-black" />
       <input
         type="text"
         placeholder="Cari"
-        className="w-full text-base border-[none] bg-transparent outline-none text-black "
+        className="w-full text-base border-[none] bg-transparent focus:outline-none text-black"
       />
     </div>
   );
