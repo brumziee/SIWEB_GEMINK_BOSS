@@ -47,7 +47,7 @@ const Header: React.FC = () => {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${poppins.className} bg-black text-white flex flex-col min-h-screen`}>
+      <body className={`${poppins.className} bg-[#FFF5E8] text-black flex flex-col min-h-screen`}>
         <LayoutWithHeaderFooter>{children}</LayoutWithHeaderFooter>
       </body>
     </html>
