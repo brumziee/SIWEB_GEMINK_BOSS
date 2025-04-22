@@ -15,10 +15,10 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#fdf5e6] to-[#1e1eff] flex flex-col justify-between">
+    <div className="min-h-screen bg-[#FFF5E8] flex flex-col justify-between">
       <div className="flex-grow flex flex-col items-center py-16">
         <h1 className="text-3xl font-sakana italic mb-10 text-black">CONTACT US</h1>
-        <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-md p-8 rounded-xl bg-white bg-opacity-90 shadow-md">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 w-full max-w-md p-8 rounded-xl bg-white bg-opacity-90 border-2 border-solid border-black border-opacity-10 shadow-md">
           <div>
             <label className="block text-sm mb-1 text-black">Email</label>
             <input
@@ -26,7 +26,7 @@ export default function ContactUs() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className={`w-full px-4 py-3 rounded-lg bg-gray-600 text-white placeholder-white focus:outline-none ${poppins.className}`}
-              placeholder="Asep@gmail.com"
+              placeholder="Email"
             />
           </div>
           <div>
@@ -36,7 +36,7 @@ export default function ContactUs() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               className={`w-full px-4 py-3 rounded-lg bg-gray-600 text-white placeholder-white focus:outline-none ${poppins.className}`}
-              placeholder="Asep"
+              placeholder="Username"
             />
           </div>
           <div>

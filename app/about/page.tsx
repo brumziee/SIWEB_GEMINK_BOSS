@@ -57,9 +57,9 @@ const TeamMember = ({
 // Final Page Component
 export default function AboutUsPage() {
   return (
-    <main className="flex flex-col items-center gap-10 p-10 min-h-screen w-full bg-gradient-to-b from-[#fdf5e6] to-[#1e1eff]">
+    <main className="flex flex-col items-center gap-10 p-10 min-h-screen w-full bg-gradient-to-b bg-[#FFF5E8]">
       {/* Tentang Toko */}
-      <article className="flex flex-col flex-1 items-center p-10 rounded-xl bg-white bg-opacity-90 w-full max-w-5xl">
+      <article className="flex flex-col flex-1 items-center p-10 rounded-xl bg-white bg-opacity-90 w-full max-w-5xl border-2 border-solid border-black border-opacity-10 shadow-md">
         <h2 className="text-3xl font-excelate font-bold text-black mb-6">GEMINK BOSS</h2>
         <p className="text-xl leading-normal text-center text-black max-sm:text-base font-sakana">
           GeminkBoss adalah toko terbaik untuk para gamer dan pecinta teknologi yang mencari
