@@ -25,7 +25,7 @@ const HomePage = () => {
   const handleExploreClick = (e: React.MouseEvent) => {
     if (!checkLoginStatus()) {
       e.preventDefault();
-      router.push("/login"); // Arahkan ke halaman login jika belum login
+      router.push("/shop"); // Arahkan ke halaman /shop
     }
   };
 
@@ -56,7 +56,7 @@ const HomePage = () => {
           </p>
 
           <Link
-            href="/katalog"
+            href="/shop"
             onClick={handleExploreClick}
             className="px-10 py-4 text-2xl text-black bg-white rounded-xl cursor-pointer hover:bg-opacity-90 transition max-sm:px-8 max-sm:py-3 max-sm:text-xl"
           >
