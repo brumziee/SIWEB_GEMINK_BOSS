@@ -12,6 +12,6 @@ Link Deploy: https://gemink-boss.vercel.app/
 Pembagian Tugas :
 
 Jonathan Damar Subagyo : Membuat shop dan navbar
-Mikael Bramantyo Febrian Wibowo : Membuat keseluruhan page admin
+Mikael Bramantyo Febrian Wibowo : Membuat keseluruhan page admin, home page
 Felix Christian : Membuat contact dan about
 Dionisius Devonapta Galih Hugosta : Membuat home page, login register, dan footer
