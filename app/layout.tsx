@@ -9,13 +9,36 @@ import Footer from "@/app/footer";
 
 const poppins = Poppins({ subsets: ["latin"], weight: ["400", "700"] });
 
-const NavItem: React.FC<{ text: string; href: string }> = ({ text, href }) => (
-  <Link href={href} className="text-white text-lg hover:text-gray-300 transition-all">
-    {text}
-  </Link>
-);
+const NavItem: React.FC<{ 
+  text: string; 
+  href: string;
+  isLoggedIn: boolean;
+  onClick?: () => void;
+}> = ({ text, href, isLoggedIn, onClick }) => {
+  const handleClick = (e: React.MouseEvent) => {
+    if (!isLoggedIn && href !== "/") {
+      e.preventDefault();
+      onClick?.();
+    }
+  };
 
-const Header: React.FC = () => {
+  return (
+    <Link 
+      href={href}
+      onClick={handleClick}
+      className={`text-white text-lg hover:text-gray-300 transition-all ${
+        !isLoggedIn && href !== "/" ? "cursor-pointer" : ""
+      }`}
+    >
+      {text}
+    </Link>
+  );
+};
+
+const Header: React.FC<{ 
+  isLoggedIn: boolean;
+  showAuthWarning: () => void;
+}> = ({ isLoggedIn, showAuthWarning }) => {
   const navItems = [
     { text: "Home", href: "/" },
     { text: "Shop", href: "/shop" },
@@ -24,11 +47,10 @@ const Header: React.FC = () => {
   ];
 
   const router = useRouter();
-  const isLoggedIn = typeof window !== "undefined" && localStorage.getItem("role");
 
   const handleLogout = () => {
     localStorage.removeItem("role");
-    router.push("/login");
+    router.push("/");
   };
 
   return (
@@ -39,7 +61,13 @@ const Header: React.FC = () => {
 
       <nav className="flex gap-7 max-md:hidden">
         {navItems.map((item, index) => (
-          <NavItem key={index} text={item.text} href={item.href} />
+          <NavItem 
+            key={index} 
+            text={item.text} 
+            href={item.href}
+            isLoggedIn={isLoggedIn}
+            onClick={showAuthWarning}
+          />
         ))}
       </nav>
 
@@ -83,26 +111,34 @@ function LayoutWithHeaderFooter({ children }: { children: React.ReactNode }) {
   );
 
   const [checkingAuth, setCheckingAuth] = useState(true);
-  const [showNotice, setShowNotice] = useState(false);
+  const [showHomeWarning, setShowHomeWarning] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const role = localStorage.getItem("role");
+    const loggedIn = !!role;
+    setIsLoggedIn(loggedIn);
 
-    if (!role && isProtectedPage) {
-      setShowNotice(true); // tampilkan modal UI
+    if (!loggedIn && isProtectedPage) {
+      router.push("/");
+      setShowHomeWarning(true);
     }
-
-    setCheckingAuth(false); // selesai pengecekan
+    setCheckingAuth(false);
   }, [pathname]);
 
   const handleRedirectToLogin = () => {
-    setShowNotice(false);
+    setShowHomeWarning(false);
     router.push("/login");
   };
 
   const handleGoHome = () => {
-    setShowNotice(false); // Menghapus notifikasi ketika tombol Kembali ke Home diklik
-    router.push("/"); // Mengarahkan ke halaman utama
+    setShowHomeWarning(false);
+  };
+
+  const showAuthWarning = () => {
+    if (!isLoggedIn) {
+      setShowHomeWarning(true);
+    }
   };
 
   if (checkingAuth) {
@@ -115,38 +151,38 @@ function LayoutWithHeaderFooter({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      {!isAdminPage && <Header />}
-      <main className="flex-grow">{children}</main>
-      {!isAdminPage && <Footer />}
+      {!isAdminPage && (
+        <Header isLoggedIn={isLoggedIn} showAuthWarning={showAuthWarning} />
+      )}
+      <main className="flex-grow relative">
+        {children}
 
-      {showNotice && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white px-6 py-6 rounded shadow-md text-center max-w-sm w-full">
-            <h2 className="text-xl font-bold text-[#261FB3] mb-2">
-              Akses Dibatasi
-            </h2>
-            <p className="text-gray-700 mb-4">
-              Anda harus login terlebih dahulu untuk mengakses halaman ini.
-            </p>
-            <div className="flex justify-between">
-              {/* Tombol Kembali ke Home */}
-              <button
-                onClick={handleGoHome}
-                className="bg-white text-[#261FB3] px-6 py-2 text-lg rounded-full font-semibold border-2 border-[#261FB3] hover:bg-[#261FB3] hover:text-white transition-all"
-              >
-                Kembali
-              </button>
-              {/* Tombol Lanjut ke Login */}
-              <button
-                onClick={handleRedirectToLogin}
-                className="bg-[#261FB3] text-white px-6 py-2 text-lg rounded-full font-semibold hover:bg-[#1b1491] transition-all"
-              >
-                Login
-              </button>
+        {showHomeWarning && pathname === "/" && (
+          <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-30">
+            <div className="bg-white text-center rounded-lg shadow-lg p-6 w-full max-w-sm mx-4">
+              <p className="text-[#261FB3] text-lg font-bold mb-2">Akses Dibatasi</p>
+              <p className="text-gray-600 text-sm mb-6">
+                Anda harus login terlebih dahulu untuk mengakses halaman ini.
+              </p>
+              <div className="flex justify-center gap-3">
+                <button
+                  onClick={handleGoHome}
+                  className="px-5 py-2 rounded-full text-[#261FB3] border border-[#261FB3] font-semibold text-sm hover:bg-[#f0f0f0] transition-all"
+                >
+                  Kembali
+                </button>
+                <button
+                  onClick={handleRedirectToLogin}
+                  className="px-5 py-2 rounded-full bg-[#261FB3] text-white font-semibold text-sm hover:bg-[#1b1491] transition-all"
+                >
+                  Login
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </main>
+      {!isAdminPage && <Footer />}
     </>
   );
 }
