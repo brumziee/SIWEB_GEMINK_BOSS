@@ -1,0 +1,39 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Produk {
+  id          Int         @id @default(autoincrement())
+  nama_produk String
+  harga       Int
+  stok        Int
+  foto        String
+  deskripsi   String
+  transaksi   Transaksi[]
+}
+
+model Pelanggan {
+  id        Int         @id @default(autoincrement())
+  nama      String
+  email     String      @unique
+  alamat    String
+  transaksi Transaksi[]
+}
+
+model Transaksi {
+  id            Int        @id @default(autoincrement())
+  id_produk     Int
+  id_pelanggan  Int
+  tanggal       DateTime   @default(now())
+  total_harga   Int
+
+  produk        Produk     @relation(fields: [id_produk], references: [id])
+  pelanggan     Pelanggan  @relation(fields: [id_pelanggan], references: [id])
+}
