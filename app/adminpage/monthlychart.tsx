@@ -1,19 +1,71 @@
-export function MonthlyChart() {
-    return (
-      <article className="p-8 rounded-2xl border-solid border-[3px] border-black border-opacity-20 h-[424px] w-[536px] max-md:w-full max-sm:p-4 max-sm:h-auto">
-        <h2 className="mb-8 text-2xl font-semibold max-sm:mb-4 max-sm:text-lg">
-          Pendapatan Bulanan
-        </h2>
-        <div>
-          <div
-            dangerouslySetInnerHTML={{
-              __html:
-                '<svg id="117:1251" layer-name="Chart" width="501" height="242" viewBox="0 0 501 242" fill="none" xmlns="http://www.w3.org/2000/svg" class="monthly-chart" style="width: 100%; height: 255px"> <g clip-path="url(#clip0_117_1251)"> <path d="M48.75 199.65H497.25" stroke="black"></path> <path d="M67.4375 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="64.6484" y="229.083">1</tspan></text> <path d="M104.812 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="101.18" y="229.083">2</tspan></text> <path d="M142.188 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="138.367" y="229.083">3</tspan></text> <path d="M179.562 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="175.713" y="229.083">4</tspan></text> <path d="M216.938 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="213.287" y="229.083">5</tspan></text> <path d="M254.312 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="250.568" y="229.083">6</tspan></text> <path d="M291.688 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="288.26" y="229.083">7</tspan></text> <path d="M329.062 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="325.365" y="229.083">8</tspan></text> <path d="M366.438 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="362.693" y="229.083">9</tspan></text> <path d="M403.812 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="397.461" y="228.864">10</tspan></text> <path d="M441.188 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="435.422" y="228.864">11</tspan></text> <path d="M478.562 206.91V199.65" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="472.078" y="228.864">12</tspan></text> <path d="M48.75 6.05005V199.65" stroke="black"></path> <path d="M44.25 199.65H48.75" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8" letter-spacing="0em"><tspan x="36" y="202.909">0</tspan></text> <path d="M44.25 151.25H48.75" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8" letter-spacing="0em"><tspan x="2.55469" y="154.409">5.000.000</tspan></text> <path d="M44.25 102.85H48.75" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8" letter-spacing="0em"><tspan x="-1.3125" y="105.909">10.000.000</tspan></text> <path d="M44.25 54.4502H48.75" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8" letter-spacing="0em"><tspan x="-1.16406" y="56.9091">15.000.000</tspan></text> <path d="M44.25 6.05005H48.75" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8" letter-spacing="0em"><tspan x="-2.4375" y="8.90909">20.000.000</tspan></text> <path d="M48.75 199.65H497.25" stroke="#CCCCCC"></path> <path d="M48.75 151.25H497.25" stroke="#CCCCCC"></path> <path d="M48.75 102.85H497.25" stroke="#CCCCCC"></path> <path d="M48.75 54.45H497.25" stroke="#CCCCCC"></path> <path d="M48.75 6.05005H497.25" stroke="#CCCCCC"></path> <path d="M67.4375 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M104.812 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M142.188 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M179.562 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M216.938 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M254.312 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M291.688 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M329.062 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M366.438 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M403.812 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M441.188 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M478.562 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M48.75 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M497.25 6.05005V199.65" stroke="#CCCCCC"></path> <path d="M52.4883 104.205H81.7383V199.65H52.4883V104.205Z" fill="#09AE00"></path> <path d="M89.8633 98.978H119.113V199.65H89.8633V98.978Z" fill="#09AE00"></path> <g filter="url(#filter0_d_117_1251)"> <path d="M127.238 31.9924H156.488V199.65H127.238V31.9924Z" fill="#09AE00"></path> </g> <path d="M164.613 71.874H193.863V199.65H164.613V71.874Z" fill="#09AE00"></path> <path d="M201.988 138.085H231.238V199.65H201.988V138.085Z" fill="#09AE00"></path> <path d="M276.738 196.165H305.988V199.65H276.738V196.165Z" fill="#09AE00"></path> <path d="M314.113 98.2036H343.363V199.65H314.113V98.2036Z" fill="#09AE00"></path> <path d="M351.488 150.863H380.738V199.65H351.488V150.863Z" fill="#09AE00"></path> <path d="M388.863 35.2837H418.113V199.65H388.863V35.2837Z" fill="#09AE00"></path> <path d="M426.238 195.004H455.488V199.65H426.238V195.004Z" fill="#09AE00"></path> <path d="M463.613 136.536H492.863V199.65H463.613V136.536Z" fill="#09AE00"></path> </g> <defs> <filter id="filter0_d_117_1251" x="123.238" y="31.9924" width="37.25" height="175.657" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"> <feFlood flood-opacity="0" result="BackgroundImageFix"></feFlood> <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"></feColorMatrix> <feOffset dy="4"></feOffset> <feGaussianBlur stdDeviation="2"></feGaussianBlur> <feComposite in2="hardAlpha" operator="out"></feComposite> <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"></feColorMatrix> <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_117_1251"></feBlend> <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_117_1251" result="shape"></feBlend> </filter> <clipPath id="clip0_117_1251"> <rect width="501" height="242" fill="white"></rect> </clipPath> </defs> </svg>',
-            }}
-          />
-        </div>
-      </article>
-    );
+'use client';
+
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { useEffect, useState } from 'react';
+
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+
+interface RevenueData {
+  month: string;
+  total: number;
 }
 
-  
+export default function MonthlyChart() {
+  const [data, setData] = useState<RevenueData[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await fetch('/api/admin/revenuechart');
+      const json = await res.json();
+      setData(json);
+    };
+    fetchData();
+  }, []);
+
+  const chartData = {
+    labels: data.map((d) => d.month),
+    datasets: [
+      {
+        label: 'Pendapatan Bulanan',
+        data: data.map((d) => d.total),
+        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+        borderRadius: 8,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      y: {
+        ticks: {
+          callback: (value: number | string) =>
+            'Rp ' +
+            Number(value).toLocaleString('id-ID', {
+              minimumFractionDigits: 0,
+            }),
+        },
+      },
+    },
+  };
+
+  return (
+    <div className="bg-white p-4 rounded-xl shadow-md w-full">
+      <h2 className="text-lg font-semibold mb-4">Pendapatan Bulanan</h2>
+      <Bar data={chartData} options={options} />
+    </div>
+  );
+}
