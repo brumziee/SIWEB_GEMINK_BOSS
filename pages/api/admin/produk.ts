@@ -7,6 +7,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       id_produk: true,
       nama_produk: true,
       harga: true,
+      stok: true,
+    kategori: true,  
     },
   });
   res.json(produk);
