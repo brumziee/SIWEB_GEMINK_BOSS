@@ -38,7 +38,7 @@ export function CustomerTable() {
           key={customer.id_pelanggan}
           className="flex p-5 border-b border-solid border-b-black border-b-opacity-10 max-sm:p-2.5 text-black max-sm:text-xs"
         >
-          <div className="w-[80px] text-base">{`U${customer.id_pelanggan}`}</div>
+          <div className="w-[80px] text-base">{`${customer.id_pelanggan}`}</div>
           <div className="flex-1 text-base">{customer.nama_pelanggan}</div>
           <div className="flex-1 text-base">{customer.umur_pelanggan}</div>
           <div className="flex-1 text-base">{customer.alamat_pelanggan}</div>
