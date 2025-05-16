@@ -1,5 +1,6 @@
+// app/admin/page.tsx
 import AnalyticsWrapper from './analyticswrapper';
-import PopularProducts from './popularproducts';
+import { DailyChart } from './dailychart';
 
 export default function AdminDashboardPage() {
   return (
@@ -11,11 +12,6 @@ export default function AdminDashboardPage() {
       {/* Bagian Analitik dengan Error Boundary */}
       <section className="mb-10">
         <AnalyticsWrapper />
-      </section>
-
-      {/* Produk Populer */}
-      <section>
-        <PopularProducts />
       </section>
     </div>
   );
