@@ -1,18 +1,69 @@
+'use client';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts';
+import { useEffect, useState } from 'react';
+
 export function DailyChart() {
-    return (
-      <article className="p-8 rounded-2xl border-solid border-[3px] border-black border-opacity-20 h-[424px] w-[536px] max-md:w-full max-sm:p-4 max-sm:h-auto">
-        <h2 className="mb-8 text-2xl font-semibold max-sm:mb-4 max-sm:text-lg">
-          Pendapatan Harian
-        </h2>
-        <div>
-          <div
-            dangerouslySetInnerHTML={{
-              __html:
-                '<svg id="117:1099" layer-name="Chart" width="500" height="255" viewBox="0 0 500 255" fill="none" xmlns="http://www.w3.org/2000/svg" class="daily-chart" style="width: 100%; height: 255px"> <g clip-path="url(#clip0_117_1099)"> <path d="M48.6523 210.375H496.257" stroke="black"></path> <path d="M80.625 218.025V210.375" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="64.7383" y="240.864">Senin</tspan></text> <path d="M144.568 218.025V210.375" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="125.861" y="240.864">Selasa</tspan></text> <path d="M208.512 218.025V210.375" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="194.068" y="240.864">Rabu</tspan></text> <path d="M272.455 218.025V210.375" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="255.432" y="240.864">Kamis</tspan></text> <path d="M336.398 218.025V210.375" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="318.98" y="240.864">Jumat</tspan></text> <path d="M400.342 218.025V210.375" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="383.9" y="240.864">Sabtu</tspan></text> <path d="M464.287 218.025V210.375" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="12" letter-spacing="0em"><tspan x="443.43" y="240.864">Minggu</tspan></text> <path d="M48.6523 6.375V210.375" stroke="black"></path> <path d="M43.3438 210.375H48.6512" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8" letter-spacing="0em"><tspan x="34" y="212.409">0</tspan></text> <path d="M42.6934 159.375H48.6506" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8" letter-spacing="0em"><tspan x="6.06543" y="157.415">500.000</tspan></text> <path d="M42.6934 108.375H48.6506" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8" letter-spacing="0em"><tspan x="0.557613" y="106.415">1.000.000</tspan></text> <path d="M42.5723 57.375H48.6539" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8" letter-spacing="0em"><tspan x="0.359375" y="54.9091">2.000.000</tspan></text> <path d="M43.3438 6.375H48.6512" stroke="black"></path> <text fill="black" xml:space="preserve" style="white-space: pre" font-family="Inter" font-size="8" letter-spacing="0em"><tspan x="0.210693" y="9.77237">3.000.000</tspan></text> <path d="M48.6523 210.375H496.257" stroke="#CCCCCC"></path> <path d="M48.6523 159.375H496.257" stroke="#CCCCCC"></path> <path d="M48.6523 108.375H496.257" stroke="#CCCCCC"></path> <path d="M48.6523 57.375H496.257" stroke="#CCCCCC"></path> <path d="M48.6523 6.375H496.257" stroke="#CCCCCC"></path> <path d="M80.625 6.375V210.375" stroke="#CCCCCC"></path> <path d="M144.568 6.375V210.375" stroke="#CCCCCC"></path> <path d="M208.512 6.375V210.375" stroke="#CCCCCC"></path> <path d="M272.455 6.375V210.375" stroke="#CCCCCC"></path> <path d="M336.398 6.375V210.375" stroke="#CCCCCC"></path> <path d="M400.342 6.375V210.375" stroke="#CCCCCC"></path> <path d="M464.285 6.375V210.375" stroke="#CCCCCC"></path> <path d="M48.6523 6.375V210.375" stroke="#CCCCCC"></path> <path d="M496.258 6.375V210.375" stroke="#CCCCCC"></path> <path d="M55.0469 65.8899H105.945V210.375H55.0469V65.8899Z" fill="#09AE00"></path> <path d="M118.99 32.8052H169.888V210.375H118.99V32.8052Z" fill="#09AE00"></path> <path d="M182.934 90.0374H233.832V210.375H182.934V90.0374Z" fill="#09AE00"></path> <path d="M246.877 132.853H297.775V210.375H246.877V132.853Z" fill="#09AE00"></path> <path d="M310.82 15.8855H361.719V210.375H310.82V15.8855Z" fill="#09AE00"></path> <path d="M374.764 138.806H425.662V210.375H374.764V138.806Z" fill="#09AE00"></path> <path d="M438.709 194.875H489.607V210.375H438.709V194.875Z" fill="#09AE00"></path> </g> <defs> <clipPath id="clip0_117_1099"> <rect width="500" height="255" fill="white"></rect> </clipPath> </defs> </svg>',
-            }}
-          />
-        </div>
-      </article>
-    );
-  }
-  
+  const [data, setData] = useState<{day: string, revenue: number}[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch('/api/admin/dailyrevenue');
+        const json = await res.json();
+        setData(json);
+      } catch (error) {
+        console.error('Error fetching daily revenue:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-lg font-semibold mb-4">Pendapatan 7 Hari Terakhir</h2>
+      <div className="h-[300px]">
+        {loading ? (
+          <div className="flex items-center justify-center h-full">
+            <p>Memuat data...</p>
+          </div>
+        ) : data.length > 0 ? (
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart data={data}>
+              <XAxis 
+                dataKey="day" 
+                tick={{ fill: '#6b7280' }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                tickFormatter={(value) => `Rp ${value.toLocaleString('id-ID')}`}
+                tick={{ fill: '#6b7280' }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip 
+                formatter={(value: number) => [`Rp ${value.toLocaleString('id-ID')}`, 'Pendapatan']}
+                contentStyle={{
+                  borderRadius: '8px',
+                  boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+                }}
+              />
+              <Bar 
+                dataKey="revenue" 
+                fill="#10B981" 
+                radius={[4, 4, 0, 0]}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        ) : (
+          <div className="flex items-center justify-center h-full">
+            <p>Tidak ada data transaksi</p>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

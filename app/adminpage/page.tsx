@@ -8,13 +8,15 @@ export default function AdminDashboardPage() {
         Dashboard
       </h1>
 
-      {/* Bagian Analitik */}
-      <AnalyticsWrapper />
+      {/* Bagian Analitik dengan Error Boundary */}
+      <section className="mb-10">
+        <AnalyticsWrapper />
+      </section>
 
       {/* Produk Populer */}
-      <div className="w-full">
+      <section>
         <PopularProducts />
-      </div>
+      </section>
     </div>
   );
 }
