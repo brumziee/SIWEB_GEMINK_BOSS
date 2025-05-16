@@ -14,22 +14,22 @@ interface Produk {
   deskripsi: string;
 }
 
-const LaptopPage = () => {
+const KeyboardPage = () => {
   const router = useRouter();
-  const [laptopProducts, setLaptopProducts] = useState<Produk[]>([]);
+  const [keyboardProducts, setKeyboardProducts] = useState<Produk[]>([]);
 
   useEffect(() => {
-    const fetchLaptops = async () => {
+    const fetchKeyboards = async () => {
       try {
-        const res = await fetch('/api/user/produk?kategori=laptop');
+        const res = await fetch('/api/user/produk?kategori=keyboard');
         const data = await res.json();
-        setLaptopProducts(data);
+        setKeyboardProducts(data);
       } catch (err) {
-        console.error('Gagal ambil data laptop:', err);
+        console.error('Gagal ambil data keyboard:', err);
       }
     };
 
-    fetchLaptops();
+    fetchKeyboards();
   }, []);
 
   return (
@@ -44,11 +44,11 @@ const LaptopPage = () => {
 
       {/* Judul */}
       <h1 className="text-center text-5xl md:text-6xl font-sakana italic mb-12 mt-10 tracking-wider">
-        LAPTOP’S
+        KEYBOARD’S
       </h1>
 
       {/* Daftar Produk */}
-      {laptopProducts.map((product) => (
+      {keyboardProducts.map((product) => (
         <ProductCard
           key={product.id_produk}
           nama_produk={product.nama_produk}
@@ -61,4 +61,4 @@ const LaptopPage = () => {
   );
 };
 
-export default LaptopPage;
+export default KeyboardPage;

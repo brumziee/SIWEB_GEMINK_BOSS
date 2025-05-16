@@ -14,22 +14,22 @@ interface Produk {
   deskripsi: string;
 }
 
-const LaptopPage = () => {
+const MousePage = () => {
   const router = useRouter();
-  const [laptopProducts, setLaptopProducts] = useState<Produk[]>([]);
+  const [mouseProducts, setMouseProducts] = useState<Produk[]>([]);
 
   useEffect(() => {
-    const fetchLaptops = async () => {
+    const fetchMouse = async () => {
       try {
-        const res = await fetch('/api/user/produk?kategori=laptop');
+        const res = await fetch('/api/user/produk?kategori=mouse');
         const data = await res.json();
-        setLaptopProducts(data);
+        setMouseProducts(data);
       } catch (err) {
-        console.error('Gagal ambil data laptop:', err);
+        console.error('Gagal ambil data mouse:', err);
       }
     };
 
-    fetchLaptops();
+    fetchMouse();
   }, []);
 
   return (
@@ -44,11 +44,11 @@ const LaptopPage = () => {
 
       {/* Judul */}
       <h1 className="text-center text-5xl md:text-6xl font-sakana italic mb-12 mt-10 tracking-wider">
-        LAPTOP’S
+        MOUSE’S
       </h1>
 
       {/* Daftar Produk */}
-      {laptopProducts.map((product) => (
+      {mouseProducts.map((product) => (
         <ProductCard
           key={product.id_produk}
           nama_produk={product.nama_produk}
@@ -61,4 +61,4 @@ const LaptopPage = () => {
   );
 };
 
-export default LaptopPage;
+export default MousePage;

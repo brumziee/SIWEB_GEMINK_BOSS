@@ -1,3 +1,5 @@
+#!/usr/bin/env ts-node-esm
+
 import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
@@ -93,10 +95,10 @@ async function main() {
   })
   const produk5 = await prisma.produk.create({
     data: {
-      nama_produk: 'Keyboard Mechanical Fantech',
+      nama_produk: 'Keyboard Mechanical ROG',
       harga: 320000,
       stok: 20,
-      foto: '/images/fantech.jpg',
+      foto: '/images/rog.jpg',
       deskripsi: 'Keyboard mechanical murah berkualitas',
       kategori: 'keyboard',
     },
