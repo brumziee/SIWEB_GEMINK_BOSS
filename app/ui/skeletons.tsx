@@ -99,3 +99,21 @@ export function CatalogSkeleton() {
     </div>
   );
 }
+
+export function CustomerSkeleton() {
+  return (
+    <div
+      className={`${shimmer} relative flex items-center p-5 border-b border-black border-opacity-10 max-sm:p-2.5`}
+    >
+      <div className="w-[80px] h-4 bg-gray-200 rounded" />
+      <div className="flex-1 h-4 bg-gray-200 rounded ml-4" />
+      <div className="flex-1 h-4 bg-gray-200 rounded ml-4" />
+      <div className="flex-1 h-4 bg-gray-200 rounded ml-4" />
+      <div className="flex-1 h-4 bg-gray-200 rounded ml-4" />
+      <div className="flex flex-1 justify-center gap-3 ml-4">
+        <div className="h-9 w-9 bg-gray-200 rounded-md" />
+        <div className="h-9 w-9 bg-gray-200 rounded-md" />
+      </div>
+    </div>
+  );
+}
