@@ -11,6 +11,7 @@ async function main() {
   await prisma.pelanggan.deleteMany()
 
   // Buat data pelanggan
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   const pelanggan1 = await prisma.pelanggan.create({
     data: {
       nama_pelanggan: 'Andi',

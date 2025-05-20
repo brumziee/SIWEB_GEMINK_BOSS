@@ -25,7 +25,7 @@ export const ProductTable: React.FC = () => {
 
   return (
     <section className="overflow-hidden rounded-3xl border-solid border-[3px] border-black border-opacity-20 max-md:overflow-x-auto max-sm:text-sm">
-      <div className="flex p-5 text-base font-bold bg-indigo-800 text-[white]">
+      <div className="flex p-5 text-sm font-bold bg-indigo-800 text-[white]">
         <div className="flex-1">ID Produk</div>
         <div className="flex-1">Nama Produk</div>
         <div className="flex-1">Harga</div>
