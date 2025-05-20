@@ -1,6 +1,5 @@
 // app/admin/page.tsx
 import AnalyticsWrapper from './analyticswrapper';
-import { DailyChart } from './dailychart';
 
 export default function AdminDashboardPage() {
   return (

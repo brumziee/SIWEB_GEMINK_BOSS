@@ -37,3 +37,27 @@ export function TransactionsTableSkeleton() {
     </div>
   );
 }
+
+const baseSkeleton =
+  "rounded-2xl shadow p-5 w-full border bg-gray-200 animate-pulse h-24";
+
+// Skeleton untuk Analytics Card (ukuran kira-kira sama semua)
+export function TotalProductSkeleton() {
+  return <div className={baseSkeleton} />;
+}
+
+export function TotalRevenueSkeleton() {
+  return <div className={baseSkeleton} />;
+}
+
+export function PopularProductSkeleton() {
+  return <div className={baseSkeleton} />;
+}
+
+export function MonthlyChartSkeleton() {
+  return <div className="h-64 w-full bg-gray-200 rounded-2xl animate-pulse" />;
+}
+
+export function DailyChartSkeleton() {
+  return <div className="h-64 w-full bg-gray-200 rounded-2xl animate-pulse" />;
+}
