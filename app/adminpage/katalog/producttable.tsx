@@ -3,6 +3,9 @@ import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { TableRow } from './tablerow';
 
+const shimmer =
+  "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
+
 interface Product {
   id_produk: number;
   nama_produk: string;
@@ -13,15 +16,27 @@ interface Product {
 
 export const ProductTable: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch('/api/admin/produk');
-      const json = await res.json();
-      setProducts(json);
+      try {
+        const res = await fetch('/api/admin/produk');
+        await new Promise((resolve) => setTimeout(resolve, 2000)); // delay 2 detik
+        const json = await res.json();
+        setProducts(json);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
   }, []);
+
+  if (loading) {
+    return <CatalogSkeleton />;
+  }
 
   return (
     <section className="overflow-hidden rounded-3xl border-solid border-[3px] border-black border-opacity-20 max-md:overflow-x-auto max-sm:text-sm">
@@ -46,3 +61,44 @@ export const ProductTable: React.FC = () => {
     </section>
   );
 };
+
+function CatalogSkeleton() {
+  return (
+    <div
+      className={`${shimmer} relative overflow-hidden rounded-3xl border-[3px] border-black border-opacity-20 max-md:overflow-x-auto`}
+    >
+      <div className="flex p-5 text-sm font-bold bg-indigo-800 text-white max-sm:p-2.5 max-sm:text-xs">
+        <div className="flex-1">ID Produk</div>
+        <div className="flex-1">Nama Produk</div>
+        <div className="flex-1">Harga</div>
+        <div className="flex-1">Stok</div>
+        <div className="flex-1">Kategori</div>
+        <div className="flex-1 text-center">Pilihan</div>
+      </div>
+
+      {[...Array(6)].map((_, i) => (
+        <div
+          key={i}
+          className="flex items-center p-5 border-b border-solid border-black border-opacity-10 max-sm:p-2.5 max-sm:text-xs"
+        >
+          {[...Array(5)].map((_, j) => (
+            <div
+              key={j}
+              className="flex-1 h-6 bg-gray-200 rounded max-sm:h-4 relative overflow-hidden"
+            >
+              <div className={shimmer + " absolute inset-0"}></div>
+            </div>
+          ))}
+          <div className="flex flex-1 justify-center gap-3">
+            <div className="h-9 w-9 bg-gray-200 rounded-md relative overflow-hidden">
+              <div className={shimmer + " absolute inset-0"}></div>
+            </div>
+            <div className="h-9 w-9 bg-gray-200 rounded-md relative overflow-hidden">
+              <div className={shimmer + " absolute inset-0"}></div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
