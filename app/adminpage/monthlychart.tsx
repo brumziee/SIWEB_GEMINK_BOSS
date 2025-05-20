@@ -1,4 +1,5 @@
 'use client';
+
 import { Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -29,9 +30,12 @@ export default function MonthlyChart() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        // Delay 2 detik sebelum fetch
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+
         const response = await fetch('/api/admin/revenuechart');
         const dbData = await response.json();
-        
+
         setChartData({
           labels: dbData.map((item: any) => item.month),
           datasets: [{
@@ -85,11 +89,24 @@ export default function MonthlyChart() {
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <h2 className="text-lg font-semibold mb-4">Pendapatan Bulanan</h2>
+      {loading ? (
+        <div className="h-6 w-40 bg-slate-200 rounded mb-4 animate-pulse"></div>
+      ) : (
+        <h2 className="text-lg font-semibold mb-4">Pendapatan Bulanan</h2>
+      )}
+
       <div className="h-[300px]">
         {loading ? (
-          <div className="flex items-center justify-center h-full">
-            <p>Memuat data...</p>
+          <div className="flex items-end gap-2 h-full animate-pulse">
+             {[...Array(7)].map((_, idx) => (
+              <div
+                key={idx}
+                className="bg-slate-200 rounded-md flex-1 min-w-[30px]"
+                style={{
+                  height: `${Math.random() * 60 + 100}px` // tinggi random antara 100–160px
+                }}
+              />
+            ))}
           </div>
         ) : chartData.labels.length > 0 ? (
           <Bar data={chartData} options={options} />
