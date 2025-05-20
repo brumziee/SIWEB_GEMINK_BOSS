@@ -55,9 +55,9 @@ export function PopularProductSkeleton() {
 }
 
 export function MonthlyChartSkeleton() {
-  return <div className="h-64 w-full bg-gray-200 rounded-2xl animate-pulse" />;
+  return <div className="h-64 w-full bg-gray-200 rounded-2xl" />;
 }
 
 export function DailyChartSkeleton() {
-  return <div className="h-64 w-full bg-gray-200 rounded-2xl animate-pulse" />;
+  return <div className="h-64 w-full bg-gray-200 rounded-2xl" />;
 }
