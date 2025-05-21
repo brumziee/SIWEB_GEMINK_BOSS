@@ -1,15 +1,11 @@
-// app/admin/dashboard/analytics/page.tsx atau page.jsx
-
 import { Suspense } from 'react';
 
-// Import server component
 import TotalProduct from '@/app/adminpage/totalproduct';
 import TotalRevenue from '@/app/adminpage/totalrevenue';
 import PopularProduct from '@/app/adminpage/popularproducts';
 import MonthlyChart from '@/app/adminpage/monthlychart';
 import { DailyChart } from '@/app/adminpage/dailychart';
 
-// Import skeletons
 import {
   TotalProductSkeleton,
   TotalRevenueSkeleton,
@@ -18,20 +14,16 @@ import {
   DailyChartSkeleton,
 } from '@/app/ui/skeletons';
 
-export default function AnalyticsWrapper() {
+export default function Page() {
   return (
     <div className="grid grid-cols-1 gap-6 mb-10">
-      
-      {/* Metrics cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Suspense fallback={<TotalProductSkeleton />}>
           <TotalProduct />
         </Suspense>
-
         <Suspense fallback={<TotalRevenueSkeleton />}>
           <TotalRevenue />
         </Suspense>
-
         <Suspense fallback={<PopularProductSkeleton />}>
           <PopularProduct />
         </Suspense>
@@ -41,7 +33,6 @@ export default function AnalyticsWrapper() {
         <Suspense fallback={<MonthlyChartSkeleton />}>
           <MonthlyChart />
         </Suspense>
-
         <Suspense fallback={<DailyChartSkeleton />}>
           <DailyChart />
         </Suspense>
