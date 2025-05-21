@@ -38,21 +38,47 @@ export function TransactionsTableSkeleton() {
   );
 }
 
-const baseSkeleton =
-  "rounded-2xl shadow p-5 w-full border bg-gray-200 animate-pulse h-24";
-
+const cardSkeletonContainer =
+  "rounded-2xl shadow p-5 w-full border bg-white animate-pulse min-h-[100px] flex flex-col justify-center gap-2";
+  
 // Skeleton untuk Analytics Card (ukuran kira-kira sama semua)
 export function TotalProductSkeleton() {
-  return <div className={baseSkeleton} />;
+  return (
+    <div className={cardSkeletonContainer}>
+      {/* Judul Skeleton */}
+      <div className="w-32 h-4 bg-gray-200 rounded" />
+
+      {/* Nilai Produk Skeleton */}
+      <div className="w-60 h-7 bg-gray-200 rounded-lg" />
+    </div>
+  );
 }
 
 export function TotalRevenueSkeleton() {
-  return <div className={baseSkeleton} />;
+  return (
+    <div className={cardSkeletonContainer}>
+      {/* Judul Skeleton */}
+      <div className="w-32 h-4 bg-gray-200 rounded" />
+
+      {/* Nilai Produk Skeleton */}
+      <div className="w-60 h-7 bg-gray-200 rounded-lg" />
+    </div>
+  );
 }
 
+
 export function PopularProductSkeleton() {
-  return <div className={baseSkeleton} />;
+  return (
+    <div className={cardSkeletonContainer}>
+      {/* Judul Skeleton */}
+      <div className="w-32 h-4 bg-gray-200 rounded" />
+
+      {/* Nilai Produk Skeleton */}
+      <div className="w-60 h-7 bg-gray-200 rounded-lg" />
+    </div>
+  );
 }
+
 
 export function MonthlyChartSkeleton() {
   return <div className="h-64 w-full bg-gray-200 rounded-2xl" />;
