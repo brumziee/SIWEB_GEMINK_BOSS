@@ -6,7 +6,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 // Komponen ResetPasswordForm yang akan dibungkus dengan Suspense
 function ResetPasswordForm() {
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") || ""; // Ambil email dari URL
+  const email = searchParams?.get("email") || ""; // aman meskipun null
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const router = useRouter();
