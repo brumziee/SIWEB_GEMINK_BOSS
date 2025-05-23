@@ -105,10 +105,11 @@ function LayoutWithHeaderFooter({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const isAdminPage = pathname.startsWith("/admin");
+  const isAdminPage = pathname?.startsWith("/admin") || false;
   const isProtectedPage = ["/shop", "/about", "/contact"].some((path) =>
-    pathname.startsWith(path)
+    pathname?.startsWith(path)
   );
+
 
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [showHomeWarning, setShowHomeWarning] = useState(false);
