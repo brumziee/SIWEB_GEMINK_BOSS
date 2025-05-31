@@ -5,6 +5,7 @@ interface ActionButtonProps {
   variant?: "add" | "edit" | "delete";
   size?: "normal" | "small";
   onClick: () => void;
+  type?: "button" | "submit" | "reset";
 }
 
 const variantStyles = {

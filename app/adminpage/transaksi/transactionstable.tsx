@@ -12,7 +12,11 @@ interface Transaction {
   items: string;
 }
 
-export function TransactionsTable() {
+interface TransactionsTableProps {
+  searchQuery: string;
+}
+
+export function TransactionsTable({ searchQuery }: TransactionsTableProps) {
   const [data, setData] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -20,7 +24,7 @@ export function TransactionsTable() {
     async function fetchData() {
       try {
         const res = await fetch("/api/admin/pagetransaksi");
-        await new Promise((resolve) => setTimeout(resolve, 2000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         if (!res.ok) throw new Error(`HTTP error ${res.status}`);
         const json = await res.json();
         setData(json);
@@ -30,8 +34,13 @@ export function TransactionsTable() {
         setLoading(false);
       }
     }
+
     fetchData();
   }, []);
+
+  const filteredData = data.filter((t) =>
+    t.customer.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return loading ? (
     <TransactionsTableSkeleton />
@@ -45,28 +54,32 @@ export function TransactionsTable() {
         <div className="flex-1">Item yang Dibeli</div>
         <div className="flex-1 text-center">Pilihan</div>
       </div>
-      {data.map((t) => (
-        <div
-          key={t.id}
-          className="flex p-5 text-sm border-b border-solid border-black border-opacity-10 text-black max-sm:p-2.5 max-sm:text-xs"
-        >
-          <div className="flex-1">{t.id}</div>
-          <div className="flex-1">
-            {new Date(t.date).toLocaleDateString()}
+      {filteredData.length > 0 ? (
+        filteredData.map((t) => (
+          <div
+            key={t.id}
+            className="flex p-5 text-sm border-b border-solid border-black border-opacity-10 text-black max-sm:p-2.5 max-sm:text-xs"
+          >
+            <div className="flex-1">{t.id}</div>
+            <div className="flex-1">
+              {new Date(t.date).toLocaleDateString()}
+            </div>
+            <div className="flex-1">{t.total}</div>
+            <div className="flex-1">{t.customer}</div>
+            <div className="flex-1">{t.items}</div>
+            <div className="flex flex-1 gap-8 justify-center items-center max-sm:flex-col max-sm:gap-1.5">
+              <ActionButton variant="edit" size="small" onClick={() => {}}>
+                Ubah
+              </ActionButton>
+              <ActionButton variant="delete" size="small" onClick={() => {}}>
+                Hapus
+              </ActionButton>
+            </div>
           </div>
-          <div className="flex-1">{t.total}</div>
-          <div className="flex-1">{t.customer}</div>
-          <div className="flex-1">{t.items}</div>
-          <div className="flex flex-1 gap-8 justify-center items-center max-sm:flex-col max-sm:gap-1.5">
-            <ActionButton variant="edit" size="small" onClick={() => {}}>
-              Ubah
-            </ActionButton>
-            <ActionButton variant="delete" size="small" onClick={() => {}}>
-              Hapus
-            </ActionButton>
-          </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <div className="p-5 text-sm text-center text-black">Data tidak ditemukan.</div>
+      )}
     </div>
   );
 }
