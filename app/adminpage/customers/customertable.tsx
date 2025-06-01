@@ -2,6 +2,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { ActionButton } from "./actionbutton";
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface CustomerData {
   id_pelanggan: number;
@@ -11,7 +12,6 @@ interface CustomerData {
   email_pelanggan: string;
 }
 
-// Utility shimmer class
 const shimmer =
   "before:absolute before:inset-0 before:-translate-x-full before:animate-[shimmer_2s_infinite] before:bg-gradient-to-r before:from-transparent before:via-white/60 before:to-transparent";
 
@@ -20,6 +20,7 @@ function CustomerSkeletonRow() {
     <div
       className={`relative flex items-center p-5 border-b border-black border-opacity-10 max-sm:p-2.5 ${shimmer} overflow-hidden`}
     >
+      {/* Skeleton UI */}
       <div className="w-[80px] h-4 bg-gray-200 rounded" />
       <div className="flex-1 h-4 bg-gray-200 rounded ml-4" />
       <div className="flex-1 h-4 bg-gray-200 rounded ml-4" />
@@ -36,19 +37,40 @@ function CustomerSkeletonRow() {
 export function CustomerTable() {
   const [customers, setCustomers] = useState<CustomerData[]>([]);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const query = searchParams?.get('query') || '';
 
   useEffect(() => {
+    console.log('Query berubah:', query);
     const fetchData = async () => {
-      const [res] = await Promise.all([
-        fetch("/api/admin/pelanggan"),
-        new Promise((resolve) => setTimeout(resolve, 2000)),
-      ]);
+      setLoading(true);
+      const url = query
+        ? `/api/admin/pelanggan?query=${encodeURIComponent(query)}`
+        : '/api/admin/pelanggan';
+      const res = await fetch(url);
       const data = await res.json();
       setCustomers(data);
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [query]);
+
+  const handleDelete = async (id: number) => {
+    if (!confirm('Yakin mau hapus pelanggan ini?')) return;
+
+    try {
+      const res = await fetch(`/api/customers/${id}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) throw new Error('Delete failed');
+
+      // Update data lokal tanpa perlu refresh
+      setCustomers(prev => prev.filter(c => c.id_pelanggan !== id));
+    } catch (error) {
+      alert('Gagal menghapus pelanggan');
+    }
+  };
 
   return (
     <div className="overflow-hidden rounded-3xl border-solid border-[3px] border-black border-opacity-20 max-md:overflow-x-auto">
@@ -65,7 +87,10 @@ export function CustomerTable() {
         ? Array.from({ length: 6 }).map((_, index) => (
             <CustomerSkeletonRow key={index} />
           ))
-        : customers.map((customer) => (
+        : customers.length === 0 ? (
+          <div className="p-5 text-center text-gray-500">Data tidak ditemukan</div>
+        ) : (
+          customers.map((customer) => (
             <div
               key={customer.id_pelanggan}
               className="flex p-5 border-b border-solid border-b-black border-b-opacity-10 max-sm:p-2.5 text-black max-sm:text-xs"
@@ -76,15 +101,25 @@ export function CustomerTable() {
               <div className="flex-1 text-sm">{customer.alamat_pelanggan}</div>
               <div className="flex-1 text-sm">{customer.email_pelanggan}</div>
               <div className="flex flex-1 gap-8 justify-center items-center text-sm text-center max-sm:flex-col max-sm:gap-1.5">
-                <ActionButton variant="edit" size="small" onClick={() => {}}>
+                <ActionButton
+                  variant="edit"
+                  size="small"
+                  onClick={() => router.push(`/adminpage/customers/${customer.id_pelanggan}/edit`)}
+                >
                   Ubah
                 </ActionButton>
-                <ActionButton variant="delete" size="small" onClick={() => {}}>
+                <ActionButton
+                  variant="delete"
+                  size="small"
+                  onClick={() => handleDelete(customer.id_pelanggan)}
+                >
                   Hapus
                 </ActionButton>
               </div>
             </div>
-          ))}
+          ))
+        )
+      }
     </div>
   );
 }

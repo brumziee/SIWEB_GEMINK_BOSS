@@ -3,8 +3,11 @@ import * as React from "react";
 import { CustomerTable } from "./customertable";
 import { SearchBar } from "./searchbar";
 import { ActionButton } from "./actionbutton";
+import { useRouter } from "next/navigation";
 
 export default function CustomerPage() {
+  const router = useRouter(); // <- Tambahkan ini
+
   return (
     <>
       <link
@@ -18,7 +21,7 @@ export default function CustomerPage() {
               Pelanggan
             </h1>
             <div className="flex gap-5 max-md:flex-col max-md:w-full">
-              <ActionButton variant="add" onClick={() => {}}>
+              <ActionButton variant="add" onClick={() => router.push("/adminpage/customers/create")}>
                 Tambah
               </ActionButton>
               <SearchBar />
