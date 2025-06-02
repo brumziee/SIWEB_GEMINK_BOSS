@@ -6,9 +6,9 @@ export default function Page() {
     <main>
       <Breadcrumbs
         breadcrumbs={[
-          { label: 'Customers', href: '/adminpage/customers' },
+          { label: 'Pelanggan', href: '/adminpage/customers' },
           {
-            label: 'Create Customer',
+            label: 'Tambah Pelanggan',
             href: '/adminpage/customers/create',
             active: true,
           },
