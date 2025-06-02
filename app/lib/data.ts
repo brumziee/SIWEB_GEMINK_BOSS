@@ -216,3 +216,16 @@ export async function fetchFilteredCustomers(query: string) {
     throw new Error('Failed to fetch customer table.');
   }
 }
+
+// Tambahkan di data.ts
+export async function fetchProducts() {
+  try {
+    const products = await sql`
+      SELECT id, name FROM products ORDER BY name ASC
+    `;
+    return products;
+  } catch (error) {
+    console.error('Database Error:', error);
+    throw new Error('Failed to fetch products.');
+  }
+}
