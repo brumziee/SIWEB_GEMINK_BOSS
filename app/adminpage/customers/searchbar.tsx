@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
-export function SearchBar() {
+export function SearchBar({ onSearch }: { onSearch: (term: string) => void }) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -12,19 +12,19 @@ export function SearchBar() {
   const [searchTerm, setSearchTerm] = useState(searchParams?.get('query') || '');
 
   const handleSearch = useDebouncedCallback((term: string) => {
-    // Ambil params langsung dari window.location.search agar selalu fresh
+    // Panggil fungsi onSearch yang diterima dari parent
+    onSearch(term);
+    
+    // Update URL dengan query pencarian
     const params = new URLSearchParams(window.location.search);
-
-    // Set page ke 1 saat search baru
-    params.set('page', '1');
+    params.set('page', '1'); // Set halaman pertama saat pencarian baru
 
     if (term) {
-      params.set('query', term);
+      params.set('query', term); // Set query pencarian
     } else {
-      params.delete('query');
+      params.delete('query'); // Hapus query jika tidak ada pencarian
     }
 
-    // Ganti URL tanpa reload page tapi memicu rerender useSearchParams di CustomerTable
     router.replace(`${pathname}?${params.toString()}`, { scroll: false });
   }, 300);
 
@@ -42,7 +42,7 @@ export function SearchBar() {
         value={searchTerm}
         onChange={(e) => {
           setSearchTerm(e.target.value);
-          handleSearch(e.target.value);
+          handleSearch(e.target.value); // Panggil handleSearch saat input berubah
         }}
       />
     </div>

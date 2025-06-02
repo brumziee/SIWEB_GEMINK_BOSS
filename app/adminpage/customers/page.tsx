@@ -1,12 +1,28 @@
-"use client";
+'use client';
 import * as React from "react";
 import { CustomerTable } from "./customertable";
 import { SearchBar } from "./searchbar";
 import { ActionButton } from "./actionbutton";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function CustomerPage() {
-  const router = useRouter(); // <- Tambahkan ini
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const query = searchParams?.get('query') || '';  // Ambil query dari URL
+
+  const handleSearch = (term: string) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set('page', '1'); // Set halaman pertama saat pencarian baru
+
+    if (term) {
+      params.set('query', term); // Set query pencarian
+    } else {
+      params.delete('query'); // Hapus query jika tidak ada pencarian
+    }
+
+    // Ganti URL tanpa reload halaman
+    router.replace(`${window.location.pathname}?${params.toString()}`, { scroll: false });
+  };
 
   return (
     <>
@@ -24,10 +40,12 @@ export default function CustomerPage() {
               <ActionButton variant="add" onClick={() => router.push("/adminpage/customers/create")}>
                 Tambah
               </ActionButton>
-              <SearchBar />
+              <SearchBar onSearch={handleSearch} /> {/* Kirim handleSearch ke SearchBar */}
             </div>
           </header>
-          <CustomerTable />
+          
+          {/* Pass the query from the URL to the CustomerTable */}
+          <CustomerTable query={query} />
         </section>
       </main>
     </>

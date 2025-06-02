@@ -2,7 +2,7 @@
 import * as React from "react";
 import { useEffect, useState } from "react";
 import { ActionButton } from "./actionbutton";
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 interface CustomerData {
   id_pelanggan: number;
@@ -34,15 +34,13 @@ function CustomerSkeletonRow() {
   );
 }
 
-export function CustomerTable() {
+export function CustomerTable({ query }: { query: string }) {
   const [customers, setCustomers] = useState<CustomerData[]>([]);
+  const [filteredCustomers, setFilteredCustomers] = useState<CustomerData[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const query = searchParams?.get('query') || '';
 
   useEffect(() => {
-    console.log('Query berubah:', query);
     const fetchData = async () => {
       setLoading(true);
       const url = query
@@ -57,6 +55,18 @@ export function CustomerTable() {
     };
     fetchData();
   }, [query]);
+
+  // Filter pelanggan berdasarkan query pencarian
+  useEffect(() => {
+    if (query) {
+      const filtered = customers.filter((customer) =>
+        customer.nama_pelanggan.toLowerCase().includes(query.toLowerCase())
+      );
+      setFilteredCustomers(filtered);
+    } else {
+      setFilteredCustomers(customers); // Jika tidak ada query, tampilkan semua pelanggan
+    }
+  }, [customers, query]);
 
   const handleDelete = async (id: number) => {
     if (!confirm('Yakin mau hapus pelanggan ini?')) return;
