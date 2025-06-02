@@ -8,19 +8,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 export default function CustomerPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const query = searchParams?.get('query') || '';  // Ambil query dari URL
+  const query = searchParams?.get('query') || '';
 
   const handleSearch = (term: string) => {
     const params = new URLSearchParams(window.location.search);
-    params.set('page', '1'); // Set halaman pertama saat pencarian baru
+    params.set('page', '1');
 
     if (term) {
-      params.set('query', term); // Set query pencarian
+      params.set('query', term);
     } else {
-      params.delete('query'); // Hapus query jika tidak ada pencarian
+      params.delete('query');
     }
 
-    // Ganti URL tanpa reload halaman
     router.replace(`${window.location.pathname}?${params.toString()}`, { scroll: false });
   };
 
@@ -40,11 +39,10 @@ export default function CustomerPage() {
               <ActionButton variant="add" onClick={() => router.push("/adminpage/customers/create")}>
                 Tambah
               </ActionButton>
-              <SearchBar onSearch={handleSearch} /> {/* Kirim handleSearch ke SearchBar */}
+              <SearchBar onSearch={handleSearch} />
             </div>
           </header>
-          
-          {/* Pass the query from the URL to the CustomerTable */}
+
           <CustomerTable query={query} />
         </section>
       </main>
