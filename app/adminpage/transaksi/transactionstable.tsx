@@ -39,7 +39,7 @@ export function TransactionsTable({ searchQuery }: TransactionsTableProps) {
   }, []);
 
   const filteredData = data.filter((t) =>
-    t.customer.toLowerCase().includes(searchQuery.toLowerCase())
+    t.items.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return loading ? (
@@ -55,12 +55,12 @@ export function TransactionsTable({ searchQuery }: TransactionsTableProps) {
         <div className="flex-1 text-center">Pilihan</div>
       </div>
       {filteredData.length > 0 ? (
-        filteredData.map((t) => (
+        filteredData.map((t, index) => (
           <div
             key={t.id}
             className="flex p-5 text-sm border-b border-solid border-black border-opacity-10 text-black max-sm:p-2.5 max-sm:text-xs"
           >
-            <div className="flex-1">{t.id}</div>
+            <div className="flex-1">{index + 1}</div>
             <div className="flex-1">
               {new Date(t.date).toLocaleDateString()}
             </div>
