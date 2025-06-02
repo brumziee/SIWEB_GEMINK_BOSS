@@ -50,6 +50,8 @@ export function CustomerTable() {
         : '/api/admin/pelanggan';
       const res = await fetch(url);
       const data = await res.json();
+      const sortedData = data.sort((a: CustomerData, b: CustomerData) => a.id_pelanggan - b.id_pelanggan);
+      setCustomers(sortedData);
       setCustomers(data);
       setLoading(false);
     };
@@ -90,12 +92,12 @@ export function CustomerTable() {
         : customers.length === 0 ? (
           <div className="p-5 text-center text-gray-500">Data tidak ditemukan</div>
         ) : (
-          customers.map((customer) => (
+          customers.map((customer, index) => (
             <div
               key={customer.id_pelanggan}
               className="flex p-5 border-b border-solid border-b-black border-b-opacity-10 max-sm:p-2.5 text-black max-sm:text-xs"
             >
-              <div className="w-[80px] text-sm">{customer.id_pelanggan}</div>
+              <div className="w-[80px] text-sm">{index + 1}</div>
               <div className="flex-1 text-sm">{customer.nama_pelanggan}</div>
               <div className="flex-1 text-sm">{customer.umur_pelanggan}</div>
               <div className="flex-1 text-sm">{customer.alamat_pelanggan}</div>
