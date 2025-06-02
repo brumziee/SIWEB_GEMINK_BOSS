@@ -49,3 +49,29 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Gagal mengambil data transaksi' }, { status: 500 });
   }
 }
+
+export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+  const id = Number(params.id);
+
+  if (isNaN(id)) {
+    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
+  }
+
+  const body = await request.json();
+  const { id_pelanggan, id_produk, jumlah } = body;
+
+  try {
+    const updatedTransaction = await prisma.transaksi.update({
+      where: { id_transaksi: id },
+      data: {
+        id_pelanggan,
+        id_produk,
+      },
+    });
+
+    return NextResponse.json(updatedTransaction, { status: 200 });
+  } catch (error: any) {
+    console.error('Update error:', error.message);
+    return NextResponse.json({ error: error.message || 'Gagal memperbarui transaksi' }, { status: 500 });
+  }
+}
