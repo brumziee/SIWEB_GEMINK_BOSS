@@ -1,9 +1,7 @@
 "use client";
 import * as React from "react";
 import { useEffect, useState } from "react";
-import { ActionButton } from "./actionbutton";
 import { TransactionsTableSkeleton } from "@/app/ui/skeletons";
-import { useRouter } from "next/navigation";
 
 interface Transaction {
   id: string;
@@ -20,7 +18,6 @@ interface TransactionsTableProps {
 export function TransactionsTable({ searchQuery }: TransactionsTableProps) {
   const [data, setData] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
-  const router = useRouter();
 
   useEffect(() => {
     async function fetchData() {
@@ -44,25 +41,6 @@ export function TransactionsTable({ searchQuery }: TransactionsTableProps) {
     t.items.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const handleDelete = async (id: string) => {
-    if (!confirm("Yakin mau hapus transaksi ini?")) return;
-
-    try {
-      const res = await fetch(`/api/transactions/${id}`, {
-        method: "DELETE",
-      });
-      if (!res.ok) throw new Error("Delete failed");
-
-      // Cara 1: Update langsung state tanpa fetch ulang
-      setData((prev) => prev.filter((t) => t.id !== id));
-
-      // Cara 2: Fetch ulang data terbaru dari server
-      // await fetchData();
-    } catch (error) {
-      alert("Gagal menghapus transaksi");
-    }
-  };
-
   return loading ? (
     <TransactionsTableSkeleton />
   ) : (
@@ -73,7 +51,6 @@ export function TransactionsTable({ searchQuery }: TransactionsTableProps) {
         <div className="flex-1">Total Harga</div>
         <div className="flex-1">Nama Pelanggan</div>
         <div className="flex-1">Item yang Dibeli</div>
-        <div className="flex-1 text-center">Pilihan</div>
       </div>
       {filteredData.length > 0 ? (
         filteredData.map((t, index) => (
@@ -88,26 +65,12 @@ export function TransactionsTable({ searchQuery }: TransactionsTableProps) {
             <div className="flex-1">{t.total}</div>
             <div className="flex-1">{t.customer}</div>
             <div className="flex-1">{t.items}</div>
-            <div className="flex flex-1 gap-8 justify-center items-center max-sm:flex-col max-sm:gap-1.5">
-              <ActionButton
-                variant="edit"
-                size="small"
-                onClick={() => router.push(`/adminpage/transaksi/${t.id}/edit`)}
-              >
-                Ubah
-              </ActionButton>
-              <ActionButton
-                variant="delete"
-                size="small"
-                onClick={() => handleDelete(t.id)}
-              >
-                Hapus
-              </ActionButton>
-            </div>
           </div>
         ))
       ) : (
-        <div className="p-5 text-sm text-center text-black">Data tidak ditemukan.</div>
+        <div className="p-5 text-sm text-center text-black">
+          Data tidak ditemukan.
+        </div>
       )}
     </div>
   );
