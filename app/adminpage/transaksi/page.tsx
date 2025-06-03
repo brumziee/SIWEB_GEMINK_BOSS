@@ -7,7 +7,7 @@
   import { ActionButton } from "./actionbutton";
 
   export default function TransactionsPage() {
-    const router = useRouter(); // Tambahkan useRouter
+    const router = useRouter(); 
     const [query, setQuery] = useState("");
 
     return (

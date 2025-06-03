@@ -6,7 +6,7 @@ import { TransactionsTableSkeleton } from "@/app/ui/skeletons";
 interface Transaction {
   id: string;
   date: string;
-  total: string; // sudah diformat dari server
+  total: string;
   customer: string;
   items: string;
 }
@@ -23,7 +23,7 @@ export function TransactionsTable({ searchQuery }: TransactionsTableProps) {
     async function fetchData() {
       try {
         const res = await fetch("/api/admin/pagetransaksi");
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulasi loading
         if (!res.ok) throw new Error(`HTTP error ${res.status}`);
         const json = await res.json();
         setData(json);
