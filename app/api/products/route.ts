@@ -1,40 +1,84 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '../../../prisma/prisma';
+import { NextRequest, NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
+import { writeFile } from 'fs/promises';
+import path from 'path';
+import { mkdirSync, existsSync } from 'fs';
 
-export async function GET() {
-  try {
-    // Ambil semua produk dari database
-    const products = await prisma.produk.findMany();
-    return NextResponse.json(products);
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    return NextResponse.json({ message: 'Error fetching products' }, { status: 500 });
+const prisma = new PrismaClient();
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  const id = parseInt(params.id);
+
+  if (isNaN(id)) {
+    return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
   }
+
+  const produk = await prisma.produk.findUnique({
+    where: { id_produk: id },
+  });
+
+  if (!produk) {
+    return NextResponse.json({ error: 'Produk tidak ditemukan' }, { status: 404 });
+  }
+
+  return NextResponse.json(produk);
 }
 
-export async function POST(req: Request) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
   try {
-    const body = await req.json();
-
-    // Validasi minimal nama_produk dan harga (bisa diperluas)
-    if (!body.nama_produk || typeof body.harga !== 'number') {
-      return NextResponse.json({ message: 'Invalid input' }, { status: 400 });
+    const id = parseInt(params.id);
+    if (isNaN(id)) {
+      return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
     }
 
-    const product = await prisma.produk.create({
+    const formData = await request.formData();
+
+    const nama_produk = formData.get('nama_produk') as string;
+    const harga = Number(formData.get('harga'));
+    const stok = Number(formData.get('stok'));
+    const kategori = formData.get('kategori') as string;
+    const deskripsi = formData.get('deskripsi') as string;
+    const file = formData.get('foto') as File | null;
+
+    if (!nama_produk || !harga || !stok || !kategori || !deskripsi) {
+      return NextResponse.json({ error: 'Semua kolom wajib diisi.' }, { status: 400 });
+    }
+
+    let fotoPath: string | undefined = undefined;
+
+    if (file && file.name) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      const uploadDir = path.join(process.cwd(), 'public/uploads');
+
+      if (!existsSync(uploadDir)) mkdirSync(uploadDir, { recursive: true });
+
+      const filename = `${Date.now()}-${file.name}`;
+      const filePath = path.join(uploadDir, filename);
+      await writeFile(filePath, buffer);
+      fotoPath = `/uploads/${filename}`;
+    }
+
+    const updatedProduct = await prisma.produk.update({
+      where: { id_produk: id },
       data: {
-        nama_produk: body.nama_produk,
-        harga: body.harga,
-        stok: body.stok ?? 0,
-        foto: body.foto ?? '',
-        deskripsi: body.deskripsi ?? '',
-        kategori: body.kategori ?? '',
+        nama_produk,
+        harga,
+        stok,
+        kategori,
+        deskripsi,
+        ...(fotoPath && { foto: fotoPath }),
       },
     });
 
-    return NextResponse.json(product, { status: 201 });
+    return NextResponse.json(updatedProduct);
   } catch (error) {
-    console.error('Error creating product:', error);
-    return NextResponse.json({ message: 'Error creating product' }, { status: 500 });
+    console.error('Gagal mengupdate produk:', error);
+    return NextResponse.json({ error: 'Gagal update produk' }, { status: 500 });
   }
 }

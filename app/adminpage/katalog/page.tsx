@@ -1,9 +1,17 @@
 "use client";
-import * as React from "react";
+
+
+import { useRouter } from "next/navigation";
 import { SearchBar } from "./searchbar";
 import { ProductTable } from "./producttable";
 
 export default function ProductCatalog() {
+  const router = useRouter();
+
+  const handleAddClick = () => {
+    router.push("/adminpage/katalog/create");
+  };
+
   return (
     <>
       <link
@@ -18,7 +26,8 @@ export default function ProductCatalog() {
             </h1>
             <SearchBar />
           </div>
-          <div className="text-black ">
+
+          <div className="text-black">
             <ProductTable />
           </div>
         </main>
