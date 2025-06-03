@@ -22,9 +22,12 @@ export const ProductTable: React.FC = () => {
     const fetchData = async () => {
       try {
         const res = await fetch('/api/admin/produk');
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // delay 2 detik
+        await new Promise((resolve) => setTimeout(resolve, 2000)); // simulasi loading
         const json = await res.json();
-        setProducts(json);
+
+        // Urutkan berdasarkan id_produk ascending
+        const sorted = json.sort((a: Product, b: Product) => a.id_produk - b.id_produk);
+        setProducts(sorted);
       } catch (error) {
         console.error(error);
       } finally {
@@ -41,16 +44,17 @@ export const ProductTable: React.FC = () => {
   return (
     <section className="overflow-hidden rounded-3xl border-solid border-[3px] border-black border-opacity-20 max-md:overflow-x-auto max-sm:text-sm">
       <div className="flex p-5 text-sm font-bold bg-indigo-800 text-[white]">
-        <div className="flex-1">ID Produk</div>
+        <div className="w-[80px]">ID Produk</div>
         <div className="flex-1">Nama Produk</div>
         <div className="flex-1">Harga</div>
         <div className="flex-1">Stok</div>
         <div className="flex-1">Kategori</div>
         <div className="flex-1 text-center">Pilihan</div>
       </div>
-      {products.map((product) => (
+      {products.map((product, index) => (
         <TableRow
           key={product.id_produk}
+          index={index}
           id={product.id_produk}
           name={product.nama_produk}
           price={product.harga}
@@ -64,11 +68,9 @@ export const ProductTable: React.FC = () => {
 
 function CatalogSkeleton() {
   return (
-    <div
-      className={`${shimmer} relative overflow-hidden rounded-3xl border-[3px] border-black border-opacity-20 max-md:overflow-x-auto`}
-    >
+    <div className={`${shimmer} relative overflow-hidden rounded-3xl border-[3px] border-black border-opacity-20 max-md:overflow-x-auto`}>
       <div className="flex p-5 text-sm font-bold bg-indigo-800 text-white max-sm:p-2.5 max-sm:text-xs">
-        <div className="flex-1">ID Produk</div>
+        <div className="w-[80px]">ID Produk</div>
         <div className="flex-1">Nama Produk</div>
         <div className="flex-1">Harga</div>
         <div className="flex-1">Stok</div>
@@ -81,7 +83,10 @@ function CatalogSkeleton() {
           key={i}
           className="flex items-center p-5 border-b border-solid border-black border-opacity-10 max-sm:p-2.5 max-sm:text-xs"
         >
-          {[...Array(5)].map((_, j) => (
+          <div className="w-[80px] h-6 bg-gray-200 rounded relative overflow-hidden">
+            <div className={shimmer + " absolute inset-0"}></div>
+          </div>
+          {[...Array(4)].map((_, j) => (
             <div
               key={j}
               className="flex-1 h-6 bg-gray-200 rounded max-sm:h-4 relative overflow-hidden"
