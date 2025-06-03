@@ -14,8 +14,13 @@ interface Product {
   kategori: string;
 }
 
-export const ProductTable: React.FC = () => {
+interface ProductTableProps {
+  searchQuery: string;
+}
+
+export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery }) => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -28,6 +33,7 @@ export const ProductTable: React.FC = () => {
         // Urutkan berdasarkan id_produk ascending
         const sorted = json.sort((a: Product, b: Product) => a.id_produk - b.id_produk);
         setProducts(sorted);
+        setFilteredProducts(sorted);
       } catch (error) {
         console.error(error);
       } finally {
@@ -36,6 +42,16 @@ export const ProductTable: React.FC = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    // Filter products based on search query
+    const filtered = products.filter(
+      (product) =>
+        product.nama_produk.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.kategori.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  }, [searchQuery, products]);
 
   if (loading) {
     return <CatalogSkeleton />;
@@ -51,17 +67,23 @@ export const ProductTable: React.FC = () => {
         <div className="flex-1">Kategori</div>
         <div className="flex-1 text-center">Pilihan</div>
       </div>
-      {products.map((product, index) => (
-        <TableRow
-          key={product.id_produk}
-          index={index}
-          id={product.id_produk}
-          name={product.nama_produk}
-          price={product.harga}
-          stok={product.stok}
-          kategori={product.kategori}
-        />
-      ))}
+      {filteredProducts.length > 0 ? (
+        filteredProducts.map((product, index) => (
+          <TableRow
+            key={product.id_produk}
+            index={index}
+            id={product.id_produk}
+            name={product.nama_produk}
+            price={product.harga}
+            stok={product.stok}
+            kategori={product.kategori}
+          />
+        ))
+      ) : (
+        <div className="p-5 text-center text-gray-500">
+          Tidak ada produk yang sesuai dengan pencarian
+        </div>
+      )}
     </section>
   );
 };

@@ -1,16 +1,13 @@
 "use client";
 
-
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { SearchBar } from "./searchbar";
 import { ProductTable } from "./producttable";
 
 export default function ProductCatalog() {
   const router = useRouter();
-
-  const handleAddClick = () => {
-    router.push("/adminpage/katalog/create");
-  };
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <>
@@ -24,11 +21,11 @@ export default function ProductCatalog() {
             <h1 className="text-4xl font-bold text-black max-sm:text-2xl">
               Katalog Produk
             </h1>
-            <SearchBar />
+            <SearchBar onSearch={setSearchQuery} />
           </div>
 
           <div className="text-black">
-            <ProductTable />
+            <ProductTable searchQuery={searchQuery} />
           </div>
         </main>
       </div>

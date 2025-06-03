@@ -1,19 +1,12 @@
-"use client";
+interface SearchBarProps {
+  onSearch: (query: string) => void;
+}
 
-import * as React from "react";
-import { useRouter } from "next/navigation";
-
-export const SearchBar: React.FC = () => {
-  const router = useRouter();
-
-  const handleAddClick = () => {
-    router.push("/adminpage/katalog/create");
-  };
-
+export function SearchBar({ onSearch }: SearchBarProps) {
   return (
     <div className="flex gap-5 max-md:flex-col max-md:w-full">
       <button
-        onClick={handleAddClick}
+        onClick={() => window.location.href = "/adminpage/katalog/create"}
         className="px-8 py-2.5 text-base bg-lime-800 rounded-md cursor-pointer border-[none] text-[white]"
       >
         Tambah
@@ -23,9 +16,10 @@ export const SearchBar: React.FC = () => {
         <input
           type="text"
           placeholder="Cari"
-          className="w-full text-base border-[none] bg-transparent outline-none text-black"
+          onChange={(e) => onSearch(e.target.value)}
+          className="w-full text-base border-[none] bg-transparent focus:outline-none text-black"
         />
       </div>
     </div>
   );
-};
+}
