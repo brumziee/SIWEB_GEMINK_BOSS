@@ -10,7 +10,7 @@ interface Katalog {
   stok: number;
   kategori: string;
   deskripsi: string;
-  foto: string; // url / path foto saat ini
+  foto: string;
 }
 
 export default function EditKatalogForm({ product }: { product: Katalog }) {
@@ -25,14 +25,9 @@ export default function EditKatalogForm({ product }: { product: Katalog }) {
   const [foto, setFoto] = useState<File | null>(null);
   const [error, setError] = useState('');
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     setError('');
   };
 
@@ -54,53 +49,62 @@ export default function EditKatalogForm({ product }: { product: Katalog }) {
 
     const hargaVal = Number(harga);
     const stokVal = Number(stok);
+
     if (isNaN(hargaVal) || hargaVal <= 0) {
-      setError('Harga harus berupa angka positif.');
+      setError('Harga harus angka positif.');
       return;
     }
+
     if (isNaN(stokVal) || stokVal < 0) {
-      setError('Stok harus berupa angka dan tidak negatif.');
+      setError('Stok harus angka dan tidak negatif.');
       return;
     }
 
-    try {
-      const formPayload = new FormData();
-      formPayload.append('nama_produk', nama_produk.trim());
-      formPayload.append('harga', hargaVal.toString());
-      formPayload.append('stok', stokVal.toString());
-      formPayload.append('kategori', kategori.trim());
-      formPayload.append('deskripsi', deskripsi.trim());
-      if (foto) {
-        formPayload.append('foto', foto);
-      }
+    let uploadedUrl = product.foto;
 
-      const res = await fetch(`/api/products/${product.id_produk}`, {
-        method: 'PUT',
-        body: formPayload,
+    // Jika ada foto baru, upload ke endpoint /api/upload
+    if (foto) {
+      const uploadForm = new FormData();
+      uploadForm.append('file', foto);
+
+      const uploadRes = await fetch('/api/upload', {
+        method: 'POST',
+        body: uploadForm,
       });
 
-      if (res.ok) {
-        router.push('/adminpage/katalog');
+      if (uploadRes.ok) {
+        const uploadData = await uploadRes.json();
+        uploadedUrl = uploadData.url;
       } else {
-        const data = await res.json();
-        setError(data.error || 'Gagal mengupdate produk.');
+        setError('Gagal mengunggah foto.');
+        return;
       }
-    } catch (err) {
-      console.error(err);
-      setError('Terjadi kesalahan saat mengirim data.');
+    }
+
+    // Kirim data JSON ke PUT endpoint
+    const res = await fetch(`/api/products/${product.id_produk}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        ...formData,
+        harga: hargaVal,
+        stok: stokVal,
+        foto: uploadedUrl,
+      }),
+    });
+
+    if (res.ok) {
+      router.push('/adminpage/katalog');
+    } else {
+      const data = await res.json();
+      setError(data.error || 'Gagal mengupdate produk.');
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      encType="multipart/form-data"
-      className="space-y-4 bg-gray-50 p-6 rounded-md shadow"
-    >
+    <form onSubmit={handleSubmit} className="space-y-4 bg-gray-50 p-6 rounded-md shadow">
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Nama Produk
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Nama Produk</label>
         <input
           type="text"
           name="nama_produk"
@@ -157,9 +161,7 @@ export default function EditKatalogForm({ product }: { product: Katalog }) {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-gray-700">
-          Foto Produk (upload baru jika ingin ganti)
-        </label>
+        <label className="block text-sm font-medium text-gray-700">Foto Produk (jika ingin ganti)</label>
         <input
           type="file"
           accept="image/*"
