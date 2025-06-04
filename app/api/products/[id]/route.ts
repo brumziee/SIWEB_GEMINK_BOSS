@@ -1,9 +1,5 @@
-// /app/api/products/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@prisma/client';
-import { writeFile } from 'fs/promises';
-import path from 'path';
-import { mkdirSync, existsSync } from 'fs';
 
 const prisma = new PrismaClient();
 
@@ -34,42 +30,34 @@ export async function PUT(
       return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
     }
 
-    const formData = await request.formData();
+    const body = await request.json();
+    const { nama_produk, harga, stok, kategori, deskripsi, foto } = body;
 
-    const nama_produk = formData.get('nama_produk') as string;
-    const harga = Number(formData.get('harga'));
-    const stok = Number(formData.get('stok'));
-    const kategori = formData.get('kategori') as string;
-    const deskripsi = formData.get('deskripsi') as string;
-    const file = formData.get('foto') as File | null;
-
+    // Validasi isian wajib
     if (!nama_produk || !harga || !stok || !kategori || !deskripsi) {
       return NextResponse.json({ error: 'Semua kolom wajib diisi.' }, { status: 400 });
     }
 
-    let fotoPath: string | undefined = undefined;
+    const hargaVal = Number(harga);
+    const stokVal = Number(stok);
 
-    if (file && file.name) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const uploadDir = path.join(process.cwd(), 'public/uploads');
+    if (isNaN(hargaVal) || hargaVal <= 0) {
+      return NextResponse.json({ error: 'Harga harus angka positif.' }, { status: 400 });
+    }
 
-      if (!existsSync(uploadDir)) mkdirSync(uploadDir, { recursive: true });
-
-      const filename = `${Date.now()}-${file.name}`;
-      const filePath = path.join(uploadDir, filename);
-      await writeFile(filePath, buffer);
-      fotoPath = `/uploads/${filename}`;
+    if (isNaN(stokVal) || stokVal < 0) {
+      return NextResponse.json({ error: 'Stok harus angka dan tidak negatif.' }, { status: 400 });
     }
 
     const updatedProduct = await prisma.produk.update({
       where: { id_produk: id },
       data: {
         nama_produk,
-        harga,
-        stok,
+        harga: hargaVal,
+        stok: stokVal,
         kategori,
         deskripsi,
-        ...(fotoPath && { foto: fotoPath }),
+        foto, // URL dari endpoint /api/upload, bisa berupa path `/uploads/nama.jpg`
       },
     });
 
@@ -77,5 +65,34 @@ export async function PUT(
   } catch (error) {
     console.error('Gagal mengupdate produk:', error);
     return NextResponse.json({ error: 'Gagal update produk' }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const id = parseInt(params.id);
+    if (isNaN(id)) {
+      return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
+    }
+
+    const existingProduct = await prisma.produk.findUnique({
+      where: { id_produk: id },
+    });
+
+    if (!existingProduct) {
+      return NextResponse.json({ error: 'Produk tidak ditemukan' }, { status: 404 });
+    }
+
+    await prisma.produk.delete({
+      where: { id_produk: id },
+    });
+
+    return NextResponse.json({ message: 'Produk berhasil dihapus.' });
+  } catch (error) {
+    console.error('Gagal menghapus produk:', error);
+    return NextResponse.json({ error: 'Terjadi kesalahan saat menghapus produk.' }, { status: 500 });
   }
 }
