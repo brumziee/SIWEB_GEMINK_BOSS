@@ -146,7 +146,7 @@ export function CustomerTable({ query }: { query: string }) {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-xl p-6 w-[90%] max-w-md shadow-xl text-center">
             <h2 className="text-xl font-semibold mb-4">Konfirmasi Hapus</h2>
-            <p className="mb-6">Yakin mau hapus pelanggan ini?</p>
+            <p className="mb-6">Apakah Anda yakin ingin menghapus produk <span className="font-medium"> "{customerToDelete?.nama_pelanggan ?? ''}"</span>?</p>
             <div className="flex justify-center gap-4">
               <button
                 className="px-5 py-2 bg-gray-300 rounded-md hover:bg-gray-400"

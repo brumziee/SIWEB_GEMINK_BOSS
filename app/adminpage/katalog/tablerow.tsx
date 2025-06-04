@@ -96,7 +96,7 @@ export const TableRow: React.FC<TableRowProps> = ({
                 disabled={isDeleting}
                 className="px-4 py-2 bg-red-600 rounded-md text-white hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isDeleting ? 'Menghapus...' : 'Ya, Hapus'}
+                {isDeleting ? 'Menghapus...' : 'Hapus'}
               </button>
             </div>
           </div>

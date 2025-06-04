@@ -91,7 +91,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery }) => {
         ))
       ) : (
         <div className="p-5 text-center text-gray-500">
-          Tidak ada produk yang sesuai dengan pencarian
+          Data tidak
         </div>
       )}
     </section>
