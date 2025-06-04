@@ -9,6 +9,7 @@ interface TableRowProps {
   price: number;
   stok: number;
   kategori: string;
+  onDeleteSuccess?: (deletedId: number) => void; // diperbaiki
 }
 
 export const TableRow: React.FC<TableRowProps> = ({
@@ -18,8 +19,35 @@ export const TableRow: React.FC<TableRowProps> = ({
   price,
   stok,
   kategori,
+  onDeleteSuccess,
 }) => {
   const router = useRouter();
+
+  const handleDelete = async () => {
+    const confirmDelete = confirm('Apakah kamu yakin ingin menghapus produk ini?');
+    if (!confirmDelete) return;
+
+    try {
+      const res = await fetch(`/api/products/${id}`, {
+        method: 'DELETE',
+      });
+
+      if (res.ok) {
+        alert('Produk berhasil dihapus.');
+        if (onDeleteSuccess) {
+          onDeleteSuccess(id); // panggil dengan id
+        } else {
+          router.refresh();
+        }
+      } else {
+        const err = await res.json();
+        alert(`Gagal menghapus produk: ${err.message}`);
+      }
+    } catch (error) {
+      alert('Terjadi kesalahan saat menghapus produk.');
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex p-5 border-b border-solid border-b-black border-b-opacity-10 max-sm:p-2.5 text-black max-sm:text-xs">
@@ -35,7 +63,10 @@ export const TableRow: React.FC<TableRowProps> = ({
         >
           Ubah
         </button>
-        <button className="px-5 py-1.5 text-sm bg-red-600 rounded-md cursor-pointer border-[none] text-white">
+        <button
+          onClick={handleDelete}
+          className="px-5 py-1.5 text-sm bg-red-600 rounded-md cursor-pointer border-[none] text-white"
+        >
           Hapus
         </button>
       </div>

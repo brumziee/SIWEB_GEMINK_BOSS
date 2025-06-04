@@ -23,28 +23,32 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery }) => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch('/api/admin/produk');
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // simulasi loading
-        const json = await res.json();
+  // Fungsi fetch data produk
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const res = await fetch('/api/admin/produk');
+      await new Promise((resolve) => setTimeout(resolve, 2000)); // simulasi loading
+      const json = await res.json();
 
-        // Urutkan berdasarkan id_produk ascending
-        const sorted = json.sort((a: Product, b: Product) => a.id_produk - b.id_produk);
-        setProducts(sorted);
-        setFilteredProducts(sorted);
-      } catch (error) {
-        console.error(error);
-      } finally {
-        setLoading(false);
-      }
-    };
+      // Urutkan berdasarkan id_produk ascending
+      const sorted = json.sort((a: Product, b: Product) => a.id_produk - b.id_produk);
+      setProducts(sorted);
+      setFilteredProducts(sorted);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch data saat pertama kali mount
+  useEffect(() => {
     fetchData();
   }, []);
 
+  // Filter produk berdasarkan searchQuery dan update filteredProducts
   useEffect(() => {
-    // Filter products based on search query
     const filtered = products.filter(
       (product) =>
         product.nama_produk.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -52,6 +56,11 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery }) => {
     );
     setFilteredProducts(filtered);
   }, [searchQuery, products]);
+
+  // Callback untuk di-passing ke TableRow agar bisa fetch ulang data setelah delete berhasil
+  const handleDataChange = () => {
+    fetchData();
+  };
 
   if (loading) {
     return <CatalogSkeleton />;
@@ -77,6 +86,7 @@ export const ProductTable: React.FC<ProductTableProps> = ({ searchQuery }) => {
             price={product.harga}
             stok={product.stok}
             kategori={product.kategori}
+            onDeleteSuccess={handleDataChange} // passing callback untuk refresh data
           />
         ))
       ) : (
