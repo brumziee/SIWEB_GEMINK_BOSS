@@ -5,11 +5,12 @@ import EditProdukForm from '@/app/ui/adminpage/katalog/editproduk';
 import prisma from '@/app/lib/prisma';
 import { notFound } from 'next/navigation';
 
-interface PageProps {
-  params: { id: string };
-}
+type Params = {
+  id: string;
+};
 
-export default async function EditProdukPage({ params }: PageProps) {
+export default async function EditProdukPage(props: { params: Promise<Params> }) {
+  const params = await props.params;  // <- tunggu promise selesai
   const id = parseInt(params.id);
 
   if (isNaN(id)) return notFound();

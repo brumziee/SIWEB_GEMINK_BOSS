@@ -1,28 +1,20 @@
-// app/adminpage/customers/[id]/edit/page.tsx
-
-import { notFound } from 'next/navigation';
-import { prisma } from '@/prisma/prisma';
 import EditCustomerForm from '@/app/ui/adminpage/customer/editcustomerform';
+import { prisma } from '@/prisma/prisma';
+import { notFound } from 'next/navigation';
 
-export default async function EditCustomerPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  const id = parseInt(params.id, 10);
+export default async function EditCustomerPage({ params }: any) {
+  const id = parseInt(params.id);
 
   if (isNaN(id)) {
-    notFound(); // jika id bukan angka, redirect ke 404
+    notFound();
   }
 
   const customer = await prisma.pelanggan.findUnique({
-    where: {
-      id_pelanggan: id,
-    },
+    where: { id_pelanggan: id },
   });
 
   if (!customer) {
-    notFound(); // jika customer tidak ditemukan, redirect ke 404
+    notFound();
   }
 
   return (

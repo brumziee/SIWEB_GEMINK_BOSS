@@ -3,37 +3,47 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const id = parseInt(params.id);
-  if (isNaN(id)) {
+function getIdFromRequest(req: NextRequest): number | null {
+  const segments = req.nextUrl.pathname.split('/');
+  // Ambil segmen terakhir (id)
+  const idStr = segments[segments.length - 1];
+  const id = parseInt(idStr);
+  return isNaN(id) ? null : id;
+}
+
+export async function GET(request: NextRequest) {
+  const id = getIdFromRequest(request);
+  if (id === null) {
     return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
   }
 
-  const produk = await prisma.produk.findUnique({ where: { id_produk: id } });
-  if (!produk) {
-    return NextResponse.json({ error: 'Produk tidak ditemukan' }, { status: 404 });
-  }
-
-  return NextResponse.json(produk);
-}
-
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
   try {
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
-      return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
+    const produk = await prisma.produk.findUnique({
+      where: { id_produk: id },
+    });
+
+    if (!produk) {
+      return NextResponse.json({ error: 'Produk tidak ditemukan' }, { status: 404 });
     }
 
+    return NextResponse.json(produk);
+  } catch (error) {
+    console.error('Error fetching produk:', error);
+    return NextResponse.json({ error: 'Gagal mengambil produk' }, { status: 500 });
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  const id = getIdFromRequest(request);
+  if (id === null) {
+    return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
+  }
+
+  try {
     const body = await request.json();
     const { nama_produk, harga, stok, kategori, deskripsi, foto } = body;
 
-    // Validasi isian wajib
+    // Validasi input wajib
     if (!nama_produk || !harga || !stok || !kategori || !deskripsi) {
       return NextResponse.json({ error: 'Semua kolom wajib diisi.' }, { status: 400 });
     }
@@ -57,7 +67,7 @@ export async function PUT(
         stok: stokVal,
         kategori,
         deskripsi,
-        foto, // URL dari endpoint /api/upload, bisa berupa path `/uploads/nama.jpg`
+        foto,
       },
     });
 
@@ -68,16 +78,13 @@ export async function PUT(
   }
 }
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    const id = parseInt(params.id);
-    if (isNaN(id)) {
-      return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
-    }
+export async function DELETE(request: NextRequest) {
+  const id = getIdFromRequest(request);
+  if (id === null) {
+    return NextResponse.json({ error: 'ID tidak valid' }, { status: 400 });
+  }
 
+  try {
     const existingProduct = await prisma.produk.findUnique({
       where: { id_produk: id },
     });

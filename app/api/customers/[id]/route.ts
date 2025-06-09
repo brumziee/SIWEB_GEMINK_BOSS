@@ -1,24 +1,45 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma';
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
-  const id = parseInt(params.id); // Pastikan ID valid
-  const body = await req.json();
+function getIdFromReq(req: NextRequest): number | null {
+  const pathname = req.nextUrl.pathname; 
+  // pathname contoh: /api/customers/123
+  const parts = pathname.split('/');
+  const idStr = parts[parts.length - 1];
+  const id = parseInt(idStr);
+  if (isNaN(id)) return null;
+  return id;
+}
 
-  if (!id || isNaN(id)) {
-    return new Response('Invalid ID', { status: 400 });
+export async function GET(req: NextRequest) {
+  const id = getIdFromReq(req);
+  if (id === null) return new Response('Invalid ID', { status: 400 });
+
+  try {
+    const customer = await prisma.pelanggan.findUnique({
+      where: { id_pelanggan: id },
+    });
+    if (!customer) return new Response('Pelanggan tidak ditemukan', { status: 404 });
+
+    return NextResponse.json(customer);
+  } catch (err) {
+    console.error('GET error:', err);
+    return new Response('Gagal mengambil data pelanggan', { status: 500 });
   }
+}
+
+export async function PUT(req: NextRequest) {
+  const id = getIdFromReq(req);
+  if (id === null) return new Response('Invalid ID', { status: 400 });
+
+  const body = await req.json();
 
   try {
     const existingCustomer = await prisma.pelanggan.findUnique({
       where: { id_pelanggan: id },
     });
+    if (!existingCustomer) return new Response('Pelanggan tidak ditemukan', { status: 404 });
 
-    if (!existingCustomer) {
-      return NextResponse.json({ error: 'Pelanggan tidak ditemukan' }, { status: 404 });
-    }
-
-    // Mengupdate data pelanggan tanpa mengubah ID
     const updatedCustomer = await prisma.pelanggan.update({
       where: { id_pelanggan: id },
       data: {
@@ -29,59 +50,29 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
       },
     });
 
-    return NextResponse.json(updatedCustomer, { status: 200 });
+    return NextResponse.json(updatedCustomer);
   } catch (err) {
-    console.error('Update error:', err);
+    console.error('PUT error:', err);
     return new Response('Failed to update customer', { status: 500 });
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-  const idNum = Number(params.id);
-
-  if (isNaN(idNum)) {
-    return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
-  }
+export async function DELETE(req: NextRequest) {
+  const id = getIdFromReq(req);
+  if (id === null) return new Response('Invalid ID', { status: 400 });
 
   try {
-    // Cek apakah pelanggan ada
     const existingCustomer = await prisma.pelanggan.findUnique({
-      where: { id_pelanggan: idNum },
+      where: { id_pelanggan: id },
     });
+    if (!existingCustomer) return new Response('Pelanggan tidak ditemukan', { status: 404 });
 
-    if (!existingCustomer) {
-      return NextResponse.json({ error: 'Pelanggan tidak ditemukan' }, { status: 404 });
-    }
+    await prisma.transaksi.deleteMany({ where: { id_pelanggan: id } });
+    await prisma.pelanggan.delete({ where: { id_pelanggan: id } });
 
-    // Sebelum menghapus pelanggan, pastikan untuk menghapus transaksi terkait jika ada
-    await prisma.transaksi.deleteMany({
-      where: { id_pelanggan: idNum },
-    });
-
-    // Hapus pelanggan
-    await prisma.pelanggan.delete({
-      where: { id_pelanggan: idNum },
-    });
-
-    return NextResponse.json({ message: 'Pelanggan berhasil dihapus' }, { status: 200 });
-  } catch (error: any) {
-    console.error('Delete error:', error.message, error.stack);
-    return NextResponse.json({ error: error.message ?? 'Gagal menghapus pelanggan' }, { status: 500 });
-  }
-}
-
-export async function GET(req: NextRequest) {
-  try {
-    // Ambil semua data pelanggan dan urutkan berdasarkan ID
-    const customers = await prisma.pelanggan.findMany({
-      orderBy: {
-        id_pelanggan: 'asc', // Mengurutkan berdasarkan id_pelanggan (ascending order)
-      },
-    });
-
-    return NextResponse.json(customers, { status: 200 });
-  } catch (error) {
-    console.error('Error fetching customers:', error);
-    return NextResponse.json({ error: 'Gagal mengambil data pelanggan' }, { status: 500 });
+    return NextResponse.json({ message: 'Pelanggan berhasil dihapus' });
+  } catch (err) {
+    console.error('DELETE error:', err);
+    return new Response('Failed to delete customer', { status: 500 });
   }
 }

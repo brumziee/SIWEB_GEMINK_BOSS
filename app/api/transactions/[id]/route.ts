@@ -1,24 +1,29 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/prisma/prisma';
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number(params.id);
+function getIdFromRequest(request: NextRequest): number | null {
+  const segments = request.nextUrl.pathname.split('/');
+  const idStr = segments[segments.length - 1];
+  const id = parseInt(idStr);
+  return isNaN(id) ? null : id;
+}
 
-  if (isNaN(id)) {
+export async function DELETE(request: NextRequest) {
+  const id = getIdFromRequest(request);
+
+  if (id === null) {
     return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
   }
 
   try {
-    // Cek apakah transaksi ada
     const existingTransaction = await prisma.transaksi.findUnique({
-      where: { id_transaksi: id }, // sesuaikan dengan nama primary key di schema Prisma-mu
+      where: { id_transaksi: id },
     });
 
     if (!existingTransaction) {
       return NextResponse.json({ error: 'Transaksi tidak ditemukan' }, { status: 404 });
     }
 
-    // Hapus transaksi
     await prisma.transaksi.delete({
       where: { id_transaksi: id },
     });
@@ -32,14 +37,11 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
 
 export async function GET(request: NextRequest) {
   try {
-    // Ambil semua transaksi dengan relasi ke pelanggan (jika perlu)
     const transaksi = await prisma.transaksi.findMany({
-      orderBy: {
-        id_transaksi: 'asc',
-      },
+      orderBy: { id_transaksi: 'asc' },
       include: {
-        pelanggan: true, // kalau mau ambil data pelanggan juga, opsional
-        produk: true, // kalau ada relasi produk, opsional
+        pelanggan: true,
+        produk: true,
       },
     });
 
@@ -50,17 +52,21 @@ export async function GET(request: NextRequest) {
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
-  const id = Number(params.id);
+export async function PUT(request: NextRequest) {
+  const id = getIdFromRequest(request);
 
-  if (isNaN(id)) {
+  if (id === null) {
     return NextResponse.json({ error: 'Invalid ID' }, { status: 400 });
   }
 
-  const body = await request.json();
-  const { id_pelanggan, id_produk, jumlah } = body;
-
   try {
+    const body = await request.json();
+    const { id_pelanggan, id_produk } = body;
+
+    if (!id_pelanggan || !id_produk) {
+      return NextResponse.json({ error: 'Data transaksi tidak lengkap' }, { status: 400 });
+    }
+
     const updatedTransaction = await prisma.transaksi.update({
       where: { id_transaksi: id },
       data: {
