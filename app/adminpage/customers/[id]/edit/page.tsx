@@ -1,8 +1,10 @@
 // app/adminpage/customers/[id]/edit/page.tsx
+
 import EditCustomerForm from '@/app/ui/adminpage/customer/editcustomerform';
 import { prisma } from '@/prisma/prisma';
 import { notFound } from 'next/navigation';
 
+// Definisi tipe data customer
 interface Customer {
   id_pelanggan: number;
   nama_pelanggan: string;
@@ -11,11 +13,18 @@ interface Customer {
   email_pelanggan: string;
 }
 
-export default async function EditCustomerPage({ params }: { params: { id: string } }) {
-  const id = parseInt(params.id); // ✅ gunakan langsung dari parameter
+// Tipe props dari Next.js App Router
+interface PageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function EditCustomerPage({ params }: PageProps) {
+  const id = parseInt(params.id);
 
   if (isNaN(id)) {
-    notFound(); // atau bisa kirim error page khusus
+    notFound();
   }
 
   const customer: Customer | null = await prisma.pelanggan.findUnique({
