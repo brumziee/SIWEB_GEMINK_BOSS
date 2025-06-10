@@ -29,9 +29,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ nama_produk, deskripsi, harga
         <p className="text-lg md:text-xl font-semibold mb-4 tracking-widest">
           {harga.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })}
         </p>
-        <button className="bg-black text-white py-2 px-6 font-bold text-sm md:text-base tracking-wider hover:scale-105 transition-all shadow-lg">
-          ADD TO CART
-        </button>
       </div>
     </div>
   );

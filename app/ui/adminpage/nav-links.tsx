@@ -5,6 +5,7 @@ import {
   HomeIcon,
   ShoppingCartIcon,
   ShoppingBagIcon,
+  UserIcon,
 } from '@heroicons/react/24/outline';
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
@@ -20,7 +21,8 @@ const links = [
     icon: UserGroupIcon,
   },
   { name: 'Katalog', href: '/adminpage/katalog', icon: ShoppingBagIcon },
-  { name: 'Transaksi', href: '/adminpage/transaksi', icon: ShoppingCartIcon }
+  { name: 'Transaksi', href: '/adminpage/transaksi', icon: ShoppingCartIcon },
+  { name: 'Profil', href: '/adminpage/profil', icon: UserIcon }
 ];
 
 export default function NavLinks() {
