@@ -13,7 +13,7 @@ const ProfilPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex justify-center items-center p-6 bg-gradient-to-br from-[#e0eafc] to-[#cfdef3]">
+    <div className="min-h-screen flex justify-center items-center p-6">
       <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-3xl border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
         <h1 className="text-4xl font-bold text-center mb-4 text-gray-800 tracking-wide">Profil Admin</h1>
 
