@@ -74,7 +74,7 @@ const ProfilPage = () => {
       </div>
 
       {/* Tombol reset untuk debugging */}
-      {/* <button
+      <button
         onClick={() => {
           const defaultAdmin = {
             name: "Admin",
@@ -87,7 +87,7 @@ const ProfilPage = () => {
         className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
       >
         Reset ke Admin
-      </button> */}
+      </button>
     </div>
   );
 };
