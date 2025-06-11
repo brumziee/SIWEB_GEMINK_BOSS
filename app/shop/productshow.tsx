@@ -5,14 +5,13 @@ import Link from 'next/link';
 
 type ProductCategory = {
   name: string;
-  count: number;
   imageUrl: string;
 };
 
 const categories: ProductCategory[] = [
-  { name: 'Laptop', count: 2, imageUrl: '/public/letop.png' },
-  { name: 'Keyboard', count: 1, imageUrl: '/public/kebrot.png' },
-  { name: 'Mouse', count: 3, imageUrl: '/public/maus.png' },
+  { name: 'Laptop', imageUrl: '/public/letop.png' },
+  { name: 'Keyboard', imageUrl: '/public/kebrot.png' },
+  { name: 'Mouse', imageUrl: '/public/maus.png' },
 ];
 
 const ProductShowcase: React.FC = () => {
@@ -43,7 +42,6 @@ const ProductShowcase: React.FC = () => {
             <h3 className="mt-4 text-xl md:text-2xl font-bold italic text-indigo-900">
               {category.name.toUpperCase()}
             </h3>
-            <p className="text-lg text-black">{category.count}</p>
             <Link href={`/shop/${category.name.toLowerCase()}`}>
               <button className="mt-2 px-4 py-2 bg-black text-white rounded shadow hover:bg-opacity-80 transition">
                 SEE ALL
