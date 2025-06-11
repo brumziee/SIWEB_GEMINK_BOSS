@@ -50,6 +50,7 @@ const Header: React.FC<{
 
   const handleLogout = () => {
     localStorage.removeItem("role");
+    localStorage.removeItem("username");
     router.push("/");
   };
 
@@ -73,12 +74,19 @@ const Header: React.FC<{
 
       <div className="flex items-center gap-4">
         {isLoggedIn ? (
-          <button
-            onClick={handleLogout}
-            className="px-6 py-2 text-lg text-white bg-red-600 rounded-full font-semibold shadow-md hover:bg-red-500 transition-all"
-          >
-            Logout
-          </button>
+          <>
+            <Link href="/profile">
+              <button className="px-6 py-2 text-lg bg-white text-[#261FB3] rounded-full font-semibold shadow-md hover:bg-gray-200 transition-all">
+                Profil
+              </button>
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="px-6 py-2 text-lg text-white bg-red-600 rounded-full font-semibold shadow-md hover:bg-red-500 transition-all"
+            >
+              Logout
+            </button>
+          </>
         ) : (
           <Link href="/login">
             <button className="px-6 py-2 text-lg text-blue-600 bg-white rounded-full font-semibold shadow-md hover:bg-gray-200 transition-all">
@@ -109,7 +117,6 @@ function LayoutWithHeaderFooter({ children }: { children: React.ReactNode }) {
   const isProtectedPage = ["/shop", "/about", "/contact"].some((path) =>
     pathname?.startsWith(path)
   );
-
 
   const [checkingAuth, setCheckingAuth] = useState(true);
   const [showHomeWarning, setShowHomeWarning] = useState(false);

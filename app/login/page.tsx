@@ -13,6 +13,26 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     setLoading(true);
+
+    // 🔐 Cek login hardcoded terlebih dahulu
+    const defaultUsers = [
+      { name: "user123", password: "12345", role: "user" },
+      { name: "admin123", password: "12345", role: "admin" },
+    ];
+
+    const foundUser = defaultUsers.find(
+      (user) => user.name === name && user.password === password
+    );
+
+    if (foundUser) {
+      localStorage.setItem("role", foundUser.role);
+      localStorage.setItem("user", JSON.stringify({ name: foundUser.name, role: foundUser.role }));
+      router.push(foundUser.role === "admin" ? "/adminpage" : "/");
+      setLoading(false);
+      return;
+    }
+
+    // 🔄 Jika bukan user hardcoded, lanjutkan ke API
     try {
       const res = await fetch("/api/login", {
         method: "POST",
@@ -30,20 +50,15 @@ export default function LoginPage() {
         return;
       }
 
-      // Simpan role dan user ke localStorage
       localStorage.setItem("role", data.user.role);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // Arahkan berdasarkan role
-      if (data.user.role === "admin") {
-        router.push("/adminpage");
-      } else {
-        router.push("/");
-      }
+      router.push(data.user.role === "admin" ? "/adminpage" : "/");
     } catch (error) {
       console.error("Login error:", error);
       alert("Terjadi kesalahan saat login");
     }
+
     setLoading(false);
   };
 
