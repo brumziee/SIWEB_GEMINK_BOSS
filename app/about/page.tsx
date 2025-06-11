@@ -61,7 +61,7 @@ export default function AboutUsPage() {
       {/* Tentang Toko */}
       <article className="flex flex-col flex-1 items-center p-10 rounded-xl bg-white bg-opacity-90 w-full max-w-5xl border-2 border-solid border-black border-opacity-10 shadow-md">
         <h2 className="text-3xl font-excelate font-bold text-black mb-6">GEMINK BOSS</h2>
-        <p className="text-xl leading-normal text-center text-black max-sm:text-base font-sakana">
+        <p className="text-xl leading-normal text-justify text-black max-sm:text-base font-poppins">
           GeminkBoss adalah toko terbaik untuk para gamer dan pecinta teknologi yang mencari
           peralatan gaming berkualitas tinggi! Kami menyediakan berbagai mouse gaming, keyboard
           mekanikal, laptop gaming, headset, monitor, dan aksesoris lainnya untuk mendukung
