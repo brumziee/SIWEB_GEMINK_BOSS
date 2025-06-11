@@ -129,17 +129,29 @@ export function CatalogSkeleton() {
 export function CustomerSkeleton() {
   return (
     <div
-      className={`${shimmer} relative flex items-center p-5 border-b border-black border-opacity-10 max-sm:p-2.5`}
+      className={`relative flex items-center px-6 py-4 border-b border-black border-opacity-10 max-sm:px-3 max-sm:py-2 ${shimmer}`}
     >
-      <div className="w-[80px] h-4 bg-gray-200 rounded" />
-      <div className="flex-1 h-4 bg-gray-200 rounded ml-4" />
-      <div className="flex-1 h-4 bg-gray-200 rounded ml-4" />
-      <div className="flex-1 h-4 bg-gray-200 rounded ml-4" />
-      <div className="flex-1 h-4 bg-gray-200 rounded ml-4" />
-      <div className="flex flex-1 justify-center gap-3 ml-4">
+      {/* Kolom: Nama */}
+      <div className="w-[120px] h-4 bg-gray-200 rounded" />
+
+      {/* Kolom: Email */}
+      <div className="w-[180px] h-4 bg-gray-200 rounded ml-6" />
+
+      {/* Kolom: Nomor Telepon */}
+      <div className="w-[150px] h-4 bg-gray-200 rounded ml-6" />
+
+      {/* Kolom: Alamat */}
+      <div className="w-[200px] h-4 bg-gray-200 rounded ml-6" />
+
+      {/* Kolom: Tanggal Daftar */}
+      <div className="w-[120px] h-4 bg-gray-200 rounded ml-6" />
+
+      {/* Kolom: Tombol Aksi */}
+      <div className="flex gap-3 ml-auto">
         <div className="h-9 w-9 bg-gray-200 rounded-md" />
         <div className="h-9 w-9 bg-gray-200 rounded-md" />
       </div>
     </div>
   );
 }
+

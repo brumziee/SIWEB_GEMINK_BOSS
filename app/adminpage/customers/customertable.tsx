@@ -55,6 +55,7 @@ export function CustomerTable({ query }: { query: string }) {
       try {
         const res = await fetch(url);
         const data = await res.json();
+        await new Promise((resolve) => setTimeout(resolve, 2000));
         const sortedData = data.sort((a: CustomerData, b: CustomerData) => a.id_pelanggan - b.id_pelanggan);
         setCustomers(sortedData);
         setFilteredCustomers(sortedData);
