@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { Mail, UserCircle, Shield } from "lucide-react";
 
 export default function ProfilePage() {
   const [userData, setUserData] = useState<{ name?: string; email?: string; role?: string } | null>(null);
@@ -51,56 +52,79 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <p className="text-lg font-semibold">Memuat profil...</p>
+      <div className="min-h-screen flex items-center justify-center text-gray-700">
+        <p>Memuat profil...</p>
       </div>
     );
   }
 
   if (!userData) {
     return (
-      <div className="flex justify-center items-center min-h-[60vh]">
-        <p className="text-lg font-semibold text-red-600">Profil tidak ditemukan.</p>
+      <div className="min-h-screen flex items-center justify-center text-red-600 font-semibold">
+        <p>Profil tidak ditemukan.</p>
       </div>
     );
   }
 
-  const initial = userData.name?.charAt(0).toUpperCase() || "?";
-
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[#F9FAFB] p-6 pt-10">
-      {/* Avatar */}
-      <div className="relative mb-6">
-        {imagePreview ? (
-          <img
-            src={imagePreview}
-            alt="Profile"
-            className="w-32 h-32 rounded-full object-cover shadow-lg border-4 border-white"
-          />
-        ) : (
-          <div className="w-32 h-32 rounded-full bg-[#261FB3] text-white flex items-center justify-center text-4xl font-bold shadow-lg">
-            {initial}
+    <div className="min-h-screen flex flex-col justify-center items-center p-6">
+      <div className="bg-white rounded-2xl shadow-xl p-10 w-full max-w-3xl border border-gray-200 hover:shadow-2xl transition-shadow duration-300">
+        <h1 className="text-4xl font-bold text-center mb-4 text-gray-800 tracking-wide">
+          Profil {userData.role}
+        </h1>
+
+        <div className="flex justify-center mb-6 relative">
+          {imagePreview ? (
+            <img
+              src={imagePreview}
+              alt="Foto Profil"
+              className="w-40 h-40 rounded-full border-4 border-blue-500 shadow-md object-cover"
+            />
+          ) : (
+            <img
+              src={`https://ui-avatars.com/api/?name=${userData.name}&background=0D8ABC&color=fff&size=128`}
+              alt="Foto Profil"
+              className="w-40 h-40 rounded-full border-4 border-blue-500 shadow-md"
+            />
+          )}
+
+          {/* <label className="absolute bottom-2 right-[calc(50%-80px)] bg-white rounded-full p-2 shadow-md cursor-pointer"> */}
+            {/* <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleImageChange}
+            /> */}
+            {/* <span className="text-sm text-blue-600 font-semibold">✎</span> */} 
+          {/* </label> */}
+        </div>
+
+        <div className="text-center mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800">{userData.name}</h2>
+          <div className="mt-2 inline-block bg-blue-100 text-blue-700 text-sm font-medium px-3 py-1 rounded-full">
+            <Shield className="inline-block w-4 h-4 mr-1" /> {userData.role}
           </div>
-        )}
+        </div>
 
-        <label className="absolute bottom-0 right-0 bg-white rounded-full p-2 shadow-md cursor-pointer">
-          <input
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleImageChange}
-          />
-          <span className="text-sm text-[#261FB3] font-semibold">✎</span>
-        </label>
-      </div>
+        <hr className="mb-6 border-gray-300" />
 
-      {/* Detail Pengguna */}
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md text-center space-y-3">
-        <h2 className="text-2xl font-bold text-[#261FB3]">{userData.name}</h2>
-        <p className="text-gray-600">{userData.email}</p>
-        <p className="text-sm text-gray-700 bg-gray-200 inline-block px-3 py-1 rounded-full">
-          Role: <strong>{userData.role}</strong>
-        </p>
+        <div className="space-y-4">
+          <div className="flex items-center space-x-4">
+            <UserCircle className="text-blue-500 w-6 h-6" />
+            <div>
+              <label className="text-sm text-gray-500">Nama</label>
+              <p className="text-lg font-semibold text-gray-800">{userData.name}</p>
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <Mail className="text-blue-500 w-6 h-6" />
+            <div>
+              <label className="text-sm text-gray-500">Email</label>
+              <p className="text-lg font-semibold text-gray-800">{userData.email}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
