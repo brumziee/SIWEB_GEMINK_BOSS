@@ -14,7 +14,6 @@ export default function LoginPage() {
   const handleLogin = async () => {
     setLoading(true);
 
-    // 🔐 Cek login hardcoded terlebih dahulu
     const defaultUsers = [
       { name: "user123", password: "12345", role: "user" },
       { name: "admin123", password: "12345", role: "admin" },
@@ -32,7 +31,6 @@ export default function LoginPage() {
       return;
     }
 
-    // 🔄 Jika bukan user hardcoded, lanjutkan ke API
     try {
       const res = await fetch("/api/login", {
         method: "POST",
