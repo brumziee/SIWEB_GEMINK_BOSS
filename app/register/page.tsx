@@ -11,8 +11,26 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
-  const handleRegister = () => {
-    alert("Registrasi berhasil! Silakan login.");
+  const handleRegister = async () => {
+    try {
+      const res = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert("Registrasi berhasil! Silakan login.");
+        router.push("/login");
+      } else {
+        alert(`Gagal registrasi: ${data.message}`);
+      }
+    } catch (err) {
+      alert("Gagal registrasi: Terjadi kesalahan koneksi");
+      console.error(err);
+    }
   };
 
   return (

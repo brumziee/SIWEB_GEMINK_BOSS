@@ -6,28 +6,45 @@ import { useRouter } from "next/navigation";
 import { FaUser, FaLock } from "react-icons/fa";
 
 export default function LoginPage() {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setLoading(true);
+    try {
+      const res = await fetch("/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, password }), // name, bukan username
+      });
 
-    // Simulasi proses login (bisa diganti API real)
-    setTimeout(() => {
-      if (username === "admin123" && password === "12345") {
-        localStorage.setItem("role", "admin");
-        router.push("/adminpage");
-      } else if (username === "user123" && password === "12345") {
-        localStorage.setItem("role", "user");
-        router.push("/");
-      } else {
-        alert("Invalid username or password!");
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Login gagal");
+        setLoading(false);
+        return;
       }
 
-      setLoading(false);
-    }, 500);
+      // Simpan role dan user ke localStorage
+      localStorage.setItem("role", data.user.role);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      // Arahkan berdasarkan role
+      if (data.user.role === "admin") {
+        router.push("/adminpage");
+      } else {
+        router.push("/");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Terjadi kesalahan saat login");
+    }
+    setLoading(false);
   };
 
   return (
@@ -36,19 +53,17 @@ export default function LoginPage() {
         <h1 className="text-3xl font-excelate font-bold mb-6">LOGIN BOSS</h1>
 
         <div className="space-y-4">
-          {/* Username */}
           <div className="flex items-center bg-gray-200 px-4 py-3 rounded-lg">
             <FaUser className="mr-3 text-gray-600" />
             <input
               type="text"
               placeholder="Username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="bg-transparent outline-none w-full text-gray-900 placeholder-gray-500"
             />
           </div>
 
-          {/* Password */}
           <div className="flex items-center bg-gray-200 px-4 py-3 rounded-lg">
             <FaLock className="mr-3 text-gray-600" />
             <input
@@ -60,12 +75,10 @@ export default function LoginPage() {
             />
           </div>
 
-          {/* Forgot password */}
           <p className="text-sm text-gray-500 mt-2 cursor-pointer hover:underline">
             <Link href="/forgot">Forgot Password?</Link>
           </p>
 
-          {/* Button login */}
           <button
             onClick={handleLogin}
             disabled={loading}
@@ -76,7 +89,6 @@ export default function LoginPage() {
             {loading ? "Logging in..." : "Login"}
           </button>
 
-          {/* Sign up */}
           <p className="mt-4 text-sm text-gray-600">
             Don't have an account?{" "}
             <Link href="/register" className="text-blue-600 hover:underline">
