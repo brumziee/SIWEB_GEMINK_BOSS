@@ -9,9 +9,9 @@ const ProfilPage = () => {
   useEffect(() => {
     const stored = localStorage.getItem("user");
     if (stored) {
-      setUser(JSON.parse(stored));
+      setUser(JSON.parse(stored)); // Di sini kita ambil 'email' juga kalau sudah disimpan
     } else {
-      // Fallback user admin jika tidak ada user tersimpan
+      // Fallback default jika belum login
       const defaultAdmin = {
         name: "Admin",
         email: "admin@gemink.com",
@@ -72,22 +72,6 @@ const ProfilPage = () => {
           </div>
         </div>
       </div>
-
-      {/* Tombol reset untuk debugging */}
-      <button
-        onClick={() => {
-          const defaultAdmin = {
-            name: "Admin",
-            email: "admin@gemink.com",
-            role: "admin",
-          };
-          localStorage.setItem("user", JSON.stringify(defaultAdmin));
-          location.reload();
-        }}
-        className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-      >
-        Reset ke Admin
-      </button>
     </div>
   );
 };

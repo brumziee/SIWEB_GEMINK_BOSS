@@ -15,8 +15,18 @@ export default function LoginPage() {
     setLoading(true);
 
     const defaultUsers = [
-      { name: "user123", password: "12345", role: "user" },
-      { name: "admin123", password: "12345", role: "admin" },
+      {
+        name: "user123",
+        password: "12345",
+        role: "user",
+        email: "user@gemink.com", // Tambahkan email untuk user biasa (optional)
+      },
+      {
+        name: "admin123",
+        password: "12345",
+        role: "admin",
+        email: "admin@geminkboss.com", // Tambahkan email untuk admin
+      },
     ];
 
     const foundUser = defaultUsers.find(
@@ -24,8 +34,16 @@ export default function LoginPage() {
     );
 
     if (foundUser) {
+      // Simpan ke localStorage termasuk email
       localStorage.setItem("role", foundUser.role);
-      localStorage.setItem("user", JSON.stringify({ name: foundUser.name, role: foundUser.role }));
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          name: foundUser.name,
+          role: foundUser.role,
+          email: foundUser.email, // Simpan email
+        })
+      );
       router.push(foundUser.role === "admin" ? "/adminpage" : "/");
       setLoading(false);
       return;
@@ -37,7 +55,7 @@ export default function LoginPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name, password }), // name, bukan username
+        body: JSON.stringify({ name, password }),
       });
 
       const data = await res.json();
