@@ -2,60 +2,49 @@ import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 
-// Buat instance Prisma di luar handler untuk menghindari banyak koneksi
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   try {
     const { name, email, password } = await req.json();
 
-    // Validasi input lebih ketat
+    // Validasi input
     if (!name || !name.trim()) {
-      return NextResponse.json(
-        { message: "Nama harus diisi" },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: "Nama wajib diisi" }, { status: 400 });
     }
 
-    if (!email || !email.includes("@") || !email.includes(".")) {
-      return NextResponse.json(
-        { message: "Email tidak valid" },
-        { status: 400 }
-      );
+    const emailPattern = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (!email || !emailPattern.test(email)) {
+      return NextResponse.json({ message: "Format email tidak valid" }, { status: 400 });
     }
 
     if (!password || password.length < 6) {
-      return NextResponse.json(
-        { message: "Password harus minimal 6 karakter" },
-        { status: 400 }
-      );
+      return NextResponse.json({ message: "Password minimal 6 karakter" }, { status: 400 });
     }
 
-    // Cek apakah email sudah terdaftar
+    // Cek apakah email sudah digunakan
     const existingUser = await prisma.user.findUnique({
-      where: { email: email.toLowerCase() }, // Gunakan lowercase untuk konsistensi
+      where: { email: email.toLowerCase() },
     });
 
     if (existingUser) {
-      return NextResponse.json(
-        { message: "Email sudah terdaftar" },
-        { status: 409 } // 409 Conflict lebih tepat untuk resource yang sudah ada
-      );
+      return NextResponse.json({ message: "Email sudah terdaftar" }, { status: 409 });
     }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Simpan user baru
+    // Simpan user baru ke database
     const newUser = await prisma.user.create({
       data: {
         name: name.trim(),
-        email: email.toLowerCase().trim(), // Simpan email dalam lowercase
+        email: email.toLowerCase().trim(),
         password: hashedPassword,
+        role: "user", // Default role
       },
     });
 
-    // Jangan kembalikan password yang dihash
+    // Hapus password sebelum mengirim response
     const { password: _, ...userWithoutPassword } = newUser;
 
     return NextResponse.json({
@@ -65,22 +54,14 @@ export async function POST(req: Request) {
     });
   } catch (error) {
     console.error("Register error:", error);
-    
-    // Berikan pesan error yang lebih spesifik
-    let errorMessage = "Terjadi kesalahan server";
-    if (error instanceof Error) {
-      errorMessage = error.message;
-    }
-
     return NextResponse.json(
-      { 
+      {
         success: false,
-        message: errorMessage 
+        message: "Terjadi kesalahan saat registrasi",
       },
       { status: 500 }
     );
   } finally {
-    // Pastikan koneksi Prisma ditutup
     await prisma.$disconnect();
   }
 }

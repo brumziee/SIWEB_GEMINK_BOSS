@@ -8,20 +8,27 @@ export async function POST(req: Request) {
   try {
     const { name, password } = await req.json();
 
-    // Gunakan findFirst karena 'name' bukan field unique
+    // Validasi input
+    if (!name || !password) {
+      return NextResponse.json({ error: "Nama dan password wajib diisi" }, { status: 400 });
+    }
+
+    // Cari user berdasarkan nama
     const user = await prisma.user.findFirst({
       where: { name },
     });
 
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 });
+      return NextResponse.json({ error: "User tidak ditemukan" }, { status: 404 });
     }
 
+    // Bandingkan password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      return NextResponse.json({ error: "Invalid password" }, { status: 401 });
+      return NextResponse.json({ error: "Password salah" }, { status: 401 });
     }
 
+    // Buang password sebelum mengirim ke frontend
     const { password: _, ...userWithoutPassword } = user;
 
     return NextResponse.json({

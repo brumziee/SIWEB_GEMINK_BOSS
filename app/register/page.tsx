@@ -43,7 +43,7 @@ export default function RegisterPage() {
             <FaUser className="mr-3 text-gray-600" />
             <input
               type="text"
-              placeholder="Nama Lengkap"
+              placeholder="Username"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="bg-transparent outline-none w-full text-gray-900 placeholder-gray-500"
