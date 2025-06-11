@@ -33,6 +33,8 @@ model Produk {
   foto        String
   deskripsi   String
   kategori    String
+
+  @@map("produk") // <== Tambahkan ini
   transaksi   Transaksi[]
 }
 
