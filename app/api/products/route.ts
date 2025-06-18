@@ -6,6 +6,7 @@ import { mkdirSync, existsSync } from 'fs';
 
 const prisma = new PrismaClient();
 
+// === GET Produk ===
 export async function GET(request: NextRequest) {
   try {
     const products = await prisma.produk.findMany({
@@ -18,6 +19,7 @@ export async function GET(request: NextRequest) {
   }
 }
 
+// === POST Produk ===
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -29,24 +31,42 @@ export async function POST(request: NextRequest) {
     const deskripsi = formData.get('deskripsi') as string;
     const file = formData.get('foto') as File | null;
 
-    if (!nama_produk || !harga || !stok || !kategori || !deskripsi) {
-      return NextResponse.json({ error: 'Semua kolom wajib diisi.' }, { status: 400 });
+    console.log('Form data:', { nama_produk, harga, stok, kategori, deskripsi, file });
+
+    // Validasi input
+    if (
+      !nama_produk ||
+      isNaN(harga) ||
+      isNaN(stok) ||
+      !kategori ||
+      !deskripsi
+    ) {
+      return NextResponse.json({ error: 'Data tidak lengkap atau tidak valid.' }, { status: 400 });
     }
 
     let fotoPath: string | undefined = undefined;
 
-    if (file && file.name) {
-      const buffer = Buffer.from(await file.arrayBuffer());
-      const uploadDir = path.join(process.cwd(), 'public/uploads');
+    // Proses file upload
+    if (file && typeof file === 'object' && 'arrayBuffer' in file) {
+      try {
+        const buffer = Buffer.from(await file.arrayBuffer());
+        const uploadDir = path.join(process.cwd(), 'public/uploads');
 
-      if (!existsSync(uploadDir)) mkdirSync(uploadDir, { recursive: true });
+        if (!existsSync(uploadDir)) mkdirSync(uploadDir, { recursive: true });
 
-      const filename = `${Date.now()}-${file.name}`;
-      const filePath = path.join(uploadDir, filename);
-      await writeFile(filePath, buffer);
-      fotoPath = `/uploads/${filename}`;
+        const filename = `${Date.now()}-${file.name.replace(/\s+/g, '_')}`;
+        const filePath = path.join(uploadDir, filename);
+        console.log('Path upload file:', filePath);
+
+        await writeFile(filePath, buffer);
+        fotoPath = `/uploads/${filename}`;
+      } catch (fileError) {
+        console.error('Gagal menulis file:', fileError);
+        return NextResponse.json({ error: 'Gagal menyimpan file gambar.' }, { status: 500 });
+      }
     }
 
+    // Simpan ke database
     const newProduct = await prisma.produk.create({
       data: {
         nama_produk,
@@ -58,6 +78,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    console.log('Produk berhasil ditambahkan:', newProduct);
     return NextResponse.json(newProduct, { status: 201 });
   } catch (error) {
     console.error('Gagal menambahkan produk:', error);
