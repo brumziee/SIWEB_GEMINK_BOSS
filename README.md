@@ -9,6 +9,13 @@ Pada proyek ini kami memilih usaha website penjualan aksesoris gaming, tema yang
 Link GitHub : https://github.com/brumziee/SIWEB_GEMINK_BOSS.git
 Link Deploy: https://gemink-boss.vercel.app/
 
+Username admin : admin123
+Password admin : 12345
+
+Username pelanggan : Jono
+Password pelanggan : 123456
+(Pelanggan bisa membuat akun)
+
 Pembagian Tugas :
 
 Jonathan Damar Subagyo : Membuat shop dan navbar
